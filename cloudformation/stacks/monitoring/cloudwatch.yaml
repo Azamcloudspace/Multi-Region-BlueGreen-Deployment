@@ -1,0 +1,45 @@
+AWSTemplateFormatVersion: 2010-09-09
+
+Parameters:
+
+  EnvironmentName:
+    Type: String
+  TargetMetricName:
+    Type: String
+  PrimaryALBName:
+    Type: String
+  SNSAlertArn:
+    Type: String
+  AlarmName:
+    Type: String
+
+Resources:
+  PrimaryHealthAlarm:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmName: !Sub "${AlarmName}-Primary"
+      AlarmDescription: Triggers when ALB has no healthy targets
+      Namespace: AWS/ApplicationELB
+      MetricName: !Ref TargetMetricName
+      Dimensions:
+        - Name: LoadBalancer
+          Value: !Ref PrimaryALBName
+      Statistic: Average
+      Period: 60
+      EvaluationPeriods: 2
+      Threshold: 1
+      ComparisonOperator: LessThanThreshold
+      TreatMissingData: breaching
+      AlarmActions:
+        - !Ref SNSAlertArn
+      Tags:
+        - Key: Name
+          Value: !Sub "${EnvironmentName}-PrimaryHealthAlarm"
+          
+Outputs:
+  AlarmNameOut:
+    Value: !Ref PrimaryHealthAlarm
+
+
+
+

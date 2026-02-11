@@ -1,0 +1,26 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: RDS Cross-Region Read Replica
+
+Parameters:
+  SourceDBArn:
+    Type: String
+
+  DBInstanceClassReplica:
+    Type: String
+    
+Resources:
+  ReadReplica:
+    Type: AWS::RDS::DBInstance
+    Properties:
+      SourceDBInstanceIdentifier: !Sub "{{resolve:ssm:${SourceDBArn}}}"
+      DBInstanceClass: !Ref DBInstanceClassReplica
+      PubliclyAccessible: false
+      EnableCloudwatchLogsExports:
+        - postgresql
+      MonitoringInterval: 0
+
+Outputs:
+  ReplicaEndpoint:
+    Value: !GetAtt ReadReplica.Endpoint.Address
+
+

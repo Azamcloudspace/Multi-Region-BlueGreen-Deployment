@@ -1,0 +1,174 @@
+AWSTemplateFormatVersion: '2010-09-09'
+
+Parameters:
+  EnvironmentName:
+    Type: String
+  VpcCidr:
+    Type: String
+  PublicSubnet1Cidr:
+    Type: String
+  PublicSubnet2Cidr:
+    Type: String
+  PrivateSubnet1Cidr:
+    Type: String
+  PrivateSubnet2Cidr:
+    Type: String
+  InstanceAmiId:
+    Type: String
+  InstanceType:
+    Type: String
+  DBInstanceClassReplica:
+    Type: String
+  GitHubRepo:
+    Type: String
+  GitHubOwner:
+    Type: String
+  CodeStarConnectionArn:
+    Type: String
+    NoEcho: true
+  SourceDBArn:
+    Type: String
+  HostedZoneName:
+    Type: String
+  PrimaryALBZoneId:
+    Type: String
+  SecondaryALBZoneId:
+    Type: String
+  PrimaryALBDNS:
+    Type: String
+  SecondaryALBDNS:
+    Type: String
+  HostedZoneId:
+    Type: String
+
+Resources:
+
+  NetworkStack:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: https://s3.amazonaws.com/iac-bucket-azamcloud/networkstack.yaml
+      Parameters:
+        EnvironmentName: !Ref EnvironmentName
+        VpcCidr: !Ref VpcCidr
+        PublicSubnet1Cidr: !Ref PublicSubnet1Cidr
+        PublicSubnet2Cidr: !Ref PublicSubnet2Cidr
+        PrivateSubnet1Cidr: !Ref PrivateSubnet1Cidr
+        PrivateSubnet2Cidr: !Ref PrivateSubnet2Cidr
+
+  ComputeStack:
+    Type: AWS::CloudFormation::Stack
+    DependsOn: SsmStack
+    Properties:
+      TemplateURL: https://s3.amazonaws.com/iac-bucket-azamcloud/computestack.yaml
+      Parameters:
+        EnvironmentName: !Ref EnvironmentName
+        InstanceAmiId: !Ref InstanceAmiId
+        InstanceType: !Ref InstanceType
+        PrivateSubnet1: !GetAtt NetworkStack.Outputs.PrivateSubnet1
+        PrivateSubnet2: !GetAtt NetworkStack.Outputs.PrivateSubnet2
+        VpcId: !GetAtt NetworkStack.Outputs.VpcId
+        AlbSecurityGroup: !GetAtt NetworkStack.Outputs.AlbSecurityGroup
+
+  ALBStackSecondary:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: https://s3.amazonaws.com/iac-bucket-azamcloud/albstacksecondary.yaml
+      Parameters:
+        EnvironmentName: !Ref EnvironmentName
+        VpcId: !GetAtt NetworkStack.Outputs.VpcId
+        PublicSubnet1: !GetAtt NetworkStack.Outputs.PublicSubnet1
+        PublicSubnet2: !GetAtt NetworkStack.Outputs.PublicSubnet2
+        TargetGroupBlue: !GetAtt ComputeStack.Outputs.TargetGroupBlue
+        AlbSecurityGroup: !GetAtt NetworkStack.Outputs.AlbSecurityGroup
+
+        
+  DatabaseStackSecondary:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: https://s3.amazonaws.com/iac-bucket-azamcloud/databasestacksecondary.yaml
+      Parameters:
+        DBInstanceClassReplica: !Ref DBInstanceClassReplica
+        SourceDBArn: !Ref SourceDBArn
+
+  CodeDeployStack:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: https://s3.amazonaws.com/iac-bucket-azamcloud/codedeploystack.yaml
+      Parameters:
+        EnvironmentName: !Ref EnvironmentName
+
+  CodeBuildStack:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: https://s3.amazonaws.com/iac-bucket-azamcloud/codebuild.yaml
+      Parameters:
+        EnvironmentName: !Ref EnvironmentName
+
+  CodepipelineStackSecondary:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: https://s3.amazonaws.com/iac-bucket-azamcloud/codepipelinestack-seconadary.yaml
+      Parameters:
+        EnvironmentName: !Ref EnvironmentName
+        GitHubRepo: !Ref GitHubRepo
+        GitHubOwner: !Ref GitHubOwner
+        CodeStarConnectionArn: !Ref CodeStarConnectionArn
+        CodeBuildProject: !GetAtt CodeBuildStack.Outputs.CodeBuildProjectName
+
+  SecondaryBucketStack:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: https://s3.amazonaws.com/iac-bucket-azamcloud/secondarybucketstack.yaml
+      Parameters:
+        EnvironmentName: !Ref EnvironmentName
+
+  SsmStack:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: https://s3.amazonaws.com/iac-bucket-azamcloud/ssmstack.yaml
+      Parameters:
+        EnvironmentName: !Ref EnvironmentName
+
+  Route53Stack:
+    Type: AWS::CloudFormation::Stack
+    DependsOn: ALBStackSecondary
+    Properties:
+      TemplateURL: https://s3.amazonaws.com/iac-bucket-azamcloud/route53stack.yaml
+      Parameters:
+        EnvironmentName: !Ref EnvironmentName
+        HostedZoneName: !Ref HostedZoneName
+        PrimaryALBZoneId: !Ref PrimaryALBZoneId
+        SecondaryALBZoneId: !Ref SecondaryALBZoneId
+        PrimaryALBDNS: !Ref PrimaryALBDNS
+        SecondaryALBDNS: !Ref SecondaryALBDNS
+        HostedZoneId: !Ref HostedZoneId
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

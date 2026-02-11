@@ -1,0 +1,30 @@
+AWSTemplateFormatVersion: 2010-09-09
+
+Parameters:
+  EnvironmentName:
+    Type: String
+    
+Resources:
+  PrimaryBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Sub "${EnvironmentName}-primary-dr-bucket-${AWS::Region}"
+      VersioningConfiguration:
+        Status: Enabled
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+      Tags:
+        - Key: Name
+          Value: !Sub "${EnvironmentName}-primary-dr-bucket"
+
+
+Outputs:
+  PrimaryBucketName:
+    Value: !Ref PrimaryBucket
+
+
+
+

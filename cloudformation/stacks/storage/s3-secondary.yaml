@@ -1,0 +1,52 @@
+AWSTemplateFormatVersion: 2010-09-09
+
+Parameters:
+  EnvironmentName:
+    Type: String
+
+Resources:
+  SecondaryBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Sub "${EnvironmentName}-secondary-dr-bucket-${AWS::Region}"
+      VersioningConfiguration:
+        Status: Enabled
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+      OwnershipControls:
+        Rules:
+          - ObjectOwnership: BucketOwnerPreferred
+      Tags:
+        - Key: Name
+          Value: !Sub "${EnvironmentName}-secondary-dr-bucket"
+
+  SecondaryBucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: !Ref SecondaryBucket
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Sid: AllowReplicationRoleWrite
+            Effect: Allow
+            Principal:
+              AWS: !Sub "arn:aws:iam::${AWS::AccountId}:role/${EnvironmentName}-s3-replication-role"
+            Action:
+              - s3:ReplicateObject
+              - s3:ReplicateDelete
+              - s3:ReplicateTags
+              - s3:GetObjectVersionTagging
+              - s3:ObjectOwnerOverrideToBucketOwner
+            Resource: !Sub "arn:aws:s3:::${EnvironmentName}-secondary-dr-bucket-${AWS::Region}/*"
+
+Outputs:
+  SecondaryBucketName:
+    Value: !Ref SecondaryBucket
+
+
+
+
+

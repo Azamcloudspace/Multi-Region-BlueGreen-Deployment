@@ -1,0 +1,102 @@
+[
+  {
+    "ParameterKey": "EnvironmentName",
+    "ParameterValue": "dev"
+  },
+  {
+    "ParameterKey": "VpcCidr",
+    "ParameterValue": "10.0.0.0/16"
+  },
+  {
+    "ParameterKey": "PublicSubnet1Cidr",
+    "ParameterValue": "10.0.1.0/24"
+  },
+  {
+    "ParameterKey": "PublicSubnet2Cidr",
+    "ParameterValue": "10.0.2.0/24"
+  },
+  {
+    "ParameterKey": "PrivateSubnet1Cidr",
+    "ParameterValue": "10.0.3.0/24"
+  },
+  {
+    "ParameterKey": "PrivateSubnet2Cidr",
+    "ParameterValue": "10.0.4.0/24"
+  },
+  {
+    "ParameterKey": "InstanceType",
+    "ParameterValue": "t2.micro"
+  },
+  {
+    "ParameterKey": "InstanceAmiId",
+    "ParameterValue": "ami-0fa3fe0fa7920f68e"
+  },
+  {
+    "ParameterKey": "DBUsername",
+    "ParameterValue": "/db/rds/username"
+  },
+  {
+    "ParameterKey": "DBPassword",
+    "ParameterValue": "/db/rds/password"
+  },
+  {
+    "ParameterKey": "DBInstanceClass",
+    "ParameterValue": "db.t3.medium"
+  },
+  {
+    "ParameterKey": "Engine",
+    "ParameterValue": "postgres"
+  },
+  {
+    "ParameterKey": "DBInstanceClassReplica",
+    "ParameterValue": "db.t3.medium"
+  },
+  {
+    "ParameterKey": "PrimaryALBZoneId",
+    "ParameterValue": "/dr/primary/alb/zoneid"
+  },
+  {
+    "ParameterKey": "SecondaryALBZoneId",
+    "ParameterValue": "/dr/secondary/alb/zoneid"
+  },
+  {
+    "ParameterKey": "PrimaryALBDNS",
+    "ParameterValue": "/dr/primary/alb/dns"
+  },
+  {
+    "ParameterKey": "SecondaryALBDNS",
+    "ParameterValue": "/dr/secondary/alb/dns"
+  },
+  {
+    "ParameterKey": "GitHubRepo",
+    "ParameterValue": "Multi-region-DR-deployment"
+  },
+  {
+    "ParameterKey": "GitHubOwner",
+    "ParameterValue": "Azamcloudspace"
+  },
+  {
+    "ParameterKey": "CodeStarConnectionArn",
+    "ParameterValue": "arn:aws:codeconnections:us-east-1:975050225555:connection/b764abe8-bf03-4f0f-bfd5-d00aaa612924"
+  },
+  {
+    "ParameterKey": "TopicName",
+    "ParameterValue": "Topic-AzamCloud"
+  },
+  {
+    "ParameterKey": "EndpointEmail",
+    "ParameterValue": "azamiheme19@gmail.com"
+  },
+  {
+    "ParameterKey": "AlarmName",
+    "ParameterValue": "Alarm-HealthyHostCount"
+  },
+  {
+    "ParameterKey": "TargetMetricName",
+    "ParameterValue": "HealthyHostCount"
+  },
+  {
+    "ParameterKey": "AllocatedStorage",
+    "ParameterValue": "20"
+  }
+]

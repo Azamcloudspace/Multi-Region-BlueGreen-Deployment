@@ -1,0 +1,129 @@
+AWSTemplateFormatVersion: '2010-09-09'
+
+Parameters:
+  EnvironmentName:
+    Type: String
+  VpcId:
+    Type: String
+  PublicSubnet1:
+    Type: String
+  PublicSubnet2:
+    Type: String
+  TargetGroupBlue:
+    Type: String
+  AlbSecurityGroup:
+    Type: String
+
+Resources:
+
+  AlbLogBucketPrimary:
+    Type: AWS::S3::Bucket
+    
+    Properties:
+      BucketName: !Sub "${AWS::AccountId}-alb-logs-primary"
+      OwnershipControls:
+        Rules:
+          - ObjectOwnership: ObjectWriter
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: false
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: false
+
+  AlbLogBucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: !Ref AlbLogBucketPrimary
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Sid: ALBLogDeliveryWrite
+            Effect: Allow
+            Principal:
+              AWS: arn:aws:iam::127311923021:root
+            Action: s3:PutObject
+            Resource: !Sub "arn:aws:s3:::${AlbLogBucketPrimary}/AWSLogs/${AWS::AccountId}/*"
+         
+          - Sid: ALBLogDeliveryAclCheck
+            Effect: Allow
+            Principal:
+              AWS: arn:aws:iam::127311923021:root
+            Action: s3:GetBucketAcl
+            Resource: !Sub "arn:aws:s3:::${AlbLogBucketPrimary}"
+
+  
+  ALBPrimary:
+    Type: AWS::ElasticLoadBalancingV2::LoadBalancer
+    Properties:
+      Name: !Sub "${EnvironmentName}-alb"
+      Scheme: internet-facing
+      Subnets:
+        - !Ref PublicSubnet1
+        - !Ref PublicSubnet2
+      SecurityGroups:
+        - !Ref AlbSecurityGroup
+      LoadBalancerAttributes:
+        - Key: access_logs.s3.enabled
+          Value: "true"
+        - Key: access_logs.s3.bucket
+          Value: !Ref AlbLogBucketPrimary
+
+  Listener:
+    Type: AWS::ElasticLoadBalancingV2::Listener
+    Properties:
+      LoadBalancerArn: !Ref ALBPrimary
+      Port: 80
+      Protocol: HTTP
+      DefaultActions:
+        - Type: forward
+          TargetGroupArn: !Ref TargetGroupBlue
+  
+  PrimaryALBDNSParam:
+    Type: AWS::SSM::Parameter
+    Properties:
+      Name: /dr/primary/alb/dns
+      Type: String
+      Value: !GetAtt ALBPrimary.DNSName
+
+  PrimaryALBZoneParam:
+    Type: AWS::SSM::Parameter
+    Properties:
+      Name: /dr/primary/alb/zoneid
+      Type: String
+      Value: !GetAtt ALBPrimary.CanonicalHostedZoneID
+
+     
+Outputs:
+  PrimaryALBDNS:
+    Value: !GetAtt ALBPrimary.DNSName
+
+  PrimaryALBZoneId:
+    Value: !GetAtt ALBPrimary.CanonicalHostedZoneID
+
+  PrimaryALBName:
+    Value: !Ref ALBPrimary
+
+  Listener:
+    Value: !Ref Listener
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

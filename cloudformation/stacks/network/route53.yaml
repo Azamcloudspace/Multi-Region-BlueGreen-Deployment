@@ -1,0 +1,60 @@
+AWSTemplateFormatVersion: '2010-09-09'
+
+Parameters:
+  EnvironmentName:
+    Type: String
+
+  HostedZoneName:
+    Type: String
+
+  HostedZoneId:
+    Type: String
+
+  PrimaryALBDNS:
+    Type: AWS::SSM::Parameter::Value<String>
+
+  PrimaryALBZoneId:
+    Type: AWS::SSM::Parameter::Value<String>
+
+  SecondaryALBDNS:
+    Type: AWS::SSM::Parameter::Value<String>
+
+  SecondaryALBZoneId:
+    Type: AWS::SSM::Parameter::Value<String>
+
+Resources:
+
+  PrimaryRecord:
+    Type: AWS::Route53::RecordSet
+    Properties:
+      HostedZoneId: !Ref HostedZoneId
+      Name: !Ref HostedZoneName
+      Type: A
+      SetIdentifier: primary
+      Failover: PRIMARY
+      AliasTarget:
+        DNSName: !Ref PrimaryALBDNS
+        HostedZoneId: !Ref PrimaryALBZoneId
+        EvaluateTargetHealth: true
+
+  SecondaryRecord:
+    Type: AWS::Route53::RecordSet
+    Properties:
+      HostedZoneId: !Ref HostedZoneId
+      Name: !Ref HostedZoneName
+      Type: A
+      SetIdentifier: secondary
+      Failover: SECONDARY
+      AliasTarget:
+        DNSName: !Ref SecondaryALBDNS
+        HostedZoneId: !Ref SecondaryALBZoneId
+        EvaluateTargetHealth: true
+
+Outputs:
+  PrimaryRecord:
+    Value: !Ref PrimaryRecord
+
+  SecondaryRecord:
+    Value: !Ref SecondaryRecord
+
+

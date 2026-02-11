@@ -1,0 +1,17 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Parameters:
+  EnvironmentName:
+    Type: String
+    
+Resources:
+
+  CodeDeployApplication:
+    Type: AWS::CodeDeploy::Application
+    Properties:
+      ApplicationName: !Sub "${EnvironmentName}-CodeDeployApp"
+      ComputePlatform: Server
+
+Outputs:
+  CodeDeployApplication:
+    Value: !Ref CodeDeployApplication
+

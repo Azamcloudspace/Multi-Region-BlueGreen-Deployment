@@ -1,0 +1,108 @@
+AWSTemplateFormatVersion: "2010-09-09"
+
+Parameters:
+  EnvironmentName:
+    Type: String
+
+  DBUsername:
+    Type: String
+
+  DBPassword:
+    Type: String
+
+  DBInstanceClass:
+    Type: String
+
+  AllocatedStorage:
+    Type: Number
+
+  Engine: 
+    Type: String
+
+  VpcId:
+    Type: String
+
+  PrivateSubnet1:
+    Type: String
+
+  PrivateSubnet2:
+    Type: String
+
+  AppSecurityGroup:
+    Type: String
+
+Resources:
+
+  RDSSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Allow DB access from app security group
+      VpcId: !Ref VpcId
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 5432
+          ToPort: 5432
+          SourceSecurityGroupId: !Ref AppSecurityGroup
+      Tags:
+        - Key: Name
+          Value: !Sub "${EnvironmentName}-rds-sg"
+
+  DBSubnetGroup:
+    Type: AWS::RDS::DBSubnetGroup
+    Properties:
+      DBSubnetGroupDescription: Subnet group for primary RDS
+      SubnetIds:
+        - !Ref PrivateSubnet1
+        - !Ref PrivateSubnet2
+      Tags:
+        - Key: Name
+          Value: !Sub "${EnvironmentName}-db-subnet-group"
+
+  PrimaryDB:
+    Type: AWS::RDS::DBInstance
+    Properties:
+      DBInstanceIdentifier: !Sub "${EnvironmentName}-primary-db"
+      Engine: !Ref Engine
+      MasterUsername: !Sub "{{resolve:ssm:${DBUsername}}}"
+      MasterUserPassword: !Sub "{{resolve:ssm:${DBPassword}}}"
+      DBInstanceClass: !Ref DBInstanceClass
+      AllocatedStorage: !Ref AllocatedStorage
+      PubliclyAccessible: false
+      MultiAZ: false
+      DBSubnetGroupName: !Ref DBSubnetGroup
+      VPCSecurityGroups:
+        - !Ref RDSSecurityGroup
+      EnableCloudwatchLogsExports:
+        - postgresql
+      Tags:
+        - Key: Name
+          Value: !Sub "${EnvironmentName}-Primary-DB"
+
+  WritePrimaryDBArn:
+    Type: AWS::SSM::Parameter
+    Properties:
+      Name: "/myapp/primary/dbarn"
+      Type: String
+      Value: !GetAtt PrimaryDB.DBInstanceArn
+
+  WritePrimaryDBEndpoint:
+    Type: AWS::SSM::Parameter
+    Properties:
+      Name: "/myapp/primary/dbendpoint"
+      Type: String
+      Value: !GetAtt PrimaryDB.Endpoint.Address
+
+Outputs:
+
+  PrimaryDBArn:
+    Value: !GetAtt PrimaryDB.DBInstanceArn
+
+  PrimaryDBEndpoint:
+    Value: !GetAtt PrimaryDB.Endpoint.Address
+
+  RDSSecurityGroupId:
+    Value: !Ref RDSSecurityGroup
+
+
+
+

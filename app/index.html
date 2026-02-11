@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blue/Green Deployment Test</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            /* Change this color for different deployments */
+            background: linear-gradient(135deg, #56ab2f 0%, #a8e063 100%); /* GREEN */
+            /* For BLUE deployment, use: */
+            /* background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); */
+        }
+        .container {
+            text-align: center;
+            background: white;
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 700px;
+            animation: fadeIn 0.5s ease-in;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        h1 {
+            color: #56ab2f; /* Change to #667eea for BLUE */
+            font-size: 3.5rem;
+            margin: 0 0 1rem 0;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+        .badge {
+            display: inline-block;
+            padding: 0.75rem 2rem;
+            background: #56ab2f; /* Change to #667eea for BLUE */
+            color: white;
+            border-radius: 30px;
+            font-weight: bold;
+            font-size: 1.5rem;
+            margin: 1rem 0;
+            box-shadow: 0 4px 15px rgba(86, 171, 47, 0.4);
+        }
+        .info {
+            background: #f7f7f7;
+            padding: 2rem;
+            border-radius: 15px;
+            margin: 2rem 0;
+            text-align: left;
+        }
+        .info-item {
+            margin: 1rem 0;
+            font-family: 'Courier New', monospace;
+            color: #333;
+            font-size: 1.1rem;
+            padding: 0.5rem;
+            background: white;
+            border-radius: 5px;
+        }
+        .label {
+            font-weight: bold;
+            color: #56ab2f; /* Change to #667eea for BLUE */
+            display: inline-block;
+            min-width: 120px;
+        }
+        .refresh-note {
+            color: #666;
+            margin-top: 2rem;
+            font-style: italic;
+            background: #fff3cd;
+            padding: 1rem;
+            border-radius: 10px;
+            border-left: 4px solid #ffc107;
+        }
+        .timestamp {
+            font-size: 0.9rem;
+            color: #999;
+            margin-top: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🟢 GREEN Deployment</h1>
+        <!-- Change to: <h1>🔵 BLUE Deployment</h1> -->
+        
+        <div class="badge">Version 2.0</div>
+        <!-- Update version for each deployment: v3.0, v4.0, etc. -->
+        
+        <div class="info">
+            <div class="info-item">
+                <span class="label">Instance:</span>
+                <span id="instance-id">Loading...</span>
+            </div>
+            <div class="info-item">
+                <span class="label">Hostname:</span>
+                <span id="hostname">Loading...</span>
+            </div>
+            <div class="info-item">
+                <span class="label">AZ:</span>
+                <span id="az">Loading...</span>
+            </div>
+            <div class="info-item">
+                <span class="label">Region:</span>
+                <span id="region">Loading...</span>
+            </div>
+            <div class="info-item">
+                <span class="label">Color:</span>
+                <span style="font-weight: bold;">GREEN</span>
+                <!-- Change to: BLUE -->
+            </div>
+        </div>
+
+        <div class="refresh-note">
+            💡 <strong>Tip:</strong> Refresh this page during deployment to see traffic shift from Blue → Green instances
+        </div>
+
+        <div class="timestamp">
+            Page loaded: <span id="timestamp"></span>
+        </div>
+    </div>
+
+    <script>
+        // Fetch EC2 instance metadata
+        async function getMetadata(path) {
+            try {
+                const response = await fetch(`http://169.254.169.254/latest/meta-data/${path}`);
+                return await response.text();
+            } catch (error) {
+                return 'Not available';
+            }
+        }
+
+        async function loadInstanceInfo() {
+            document.getElementById('instance-id').textContent = await getMetadata('instance-id');
+            document.getElementById('hostname').textContent = await getMetadata('local-hostname');
+            document.getElementById('az').textContent = await getMetadata('placement/availability-zone');
+            document.getElementById('region').textContent = await getMetadata('placement/region');
+            document.getElementById('timestamp').textContent = new Date().toLocaleString();
+        }
+
+        // Auto-refresh every 30 seconds to show load balancing
+        setInterval(() => {
+            loadInstanceInfo();
+        }, 30000);
+
+        // Load on page load
+        loadInstanceInfo();
+    </script>
+</body>
+</html>

@@ -1,0 +1,41 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      python: 3.11
+
+  build:
+    commands:
+      - echo Packaging templates...
+      - aws s3 cp Infrastructure/networkstack.yaml s3://iac-bucket-azamcloud/
+      - aws s3 cp Infrastructure/albstackprimary.yaml s3://iac-bucket-azamcloud/
+      - aws s3 cp Infrastructure/albstacksecondary.yaml s3://iac-bucket-azamcloud/
+      - aws s3 cp Infrastructure/computestack.yaml s3://iac-bucket-azamcloud/
+      - aws s3 cp Infrastructure/databasestackprimary.yaml s3://iac-bucket-azamcloud/
+      - aws s3 cp Infrastructure/databasestacksecondary.yaml s3://iac-bucket-azamcloud/
+      - aws s3 cp Infrastructure/codedeploystack.yaml s3://iac-bucket-azamcloud/
+      - aws s3 cp Infrastructure/codebuild.yaml s3://iac-bucket-azamcloud/
+      - aws s3 cp Infrastructure/codepipelinestack.yaml s3://iac-bucket-azamcloud/
+      - aws s3 cp Infrastructure/codepipelinestack-seconadary.yaml s3://iac-bucket-azamcloud/
+      - aws s3 cp Infrastructure/route53stack.yaml s3://iac-bucket-azamcloud/
+      - aws s3 cp Infrastructure/monitoringstack.yaml s3://iac-bucket-azamcloud/
+      - aws s3 cp Infrastructure/primarybucketstack.yaml s3://iac-bucket-azamcloud/
+      - aws s3 cp Infrastructure/secondarybucketstack.yaml s3://iac-bucket-azamcloud/
+      - aws s3 cp Infrastructure/snsstack.yaml s3://iac-bucket-azamcloud/
+      - aws s3 cp Infrastructure/ssmstack.yaml s3://iac-bucket-azamcloud/
+      - aws s3 cp Infrastructure/roles.yaml s3://iac-bucket-azamcloud/
+      - aws cloudformation deploy --template-file Infrastructure/masterstackprimary.yaml --stack-name dev-Multi-RegionDR-Stack-East --capabilities CAPABILITY_NAMED_IAM --parameter-overrides file://Infrastructure/dev-params-primary.json --region us-east-1
+      - value=$(aws ssm get-parameter --name "/myapp/primary/dbarn" --region us-east-1 --query 'Parameter.Value' --output text)
+      - aws ssm put-parameter --name "/myapp/secondary/dbarn" --value "$value" --type String --overwrite --region us-west-1
+      - value=$(aws ssm get-parameter --name "/dr/primary/alb/dns" --region us-east-1 --query 'Parameter.Value' --output text)
+      - aws ssm put-parameter --name "/dr/primary/alb/dns" --value "$value" --type String --overwrite --region us-west-1
+      - value=$(aws ssm get-parameter --name "/dr/primary/alb/zoneid" --region us-east-1 --query 'Parameter.Value' --output text)
+      - aws ssm put-parameter --name "/dr/primary/alb/zoneid" --value "$value" --type String --overwrite --region us-west-1
+      - aws cloudformation deploy --template-file Infrastructure/masterstacksecondary.yaml --stack-name dev-Multi-RegionDR-Stack-West --capabilities CAPABILITY_NAMED_IAM --parameter-overrides file://Infrastructure/dev-params-secondary.json --region us-west-1
+      - aws s3api put-bucket-replication --bucket dev-primary-dr-bucket-us-east-1 --replication-configuration file://Infrastructure/replication.json --region us-east-1
+     
+
+artifacts:
+  files:
+    - '**/*'

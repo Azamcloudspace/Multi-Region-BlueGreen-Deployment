@@ -1,0 +1,40 @@
+AWSTemplateFormatVersion: 2010-09-09
+
+Parameters:
+  EnvironmentName:
+    Type: String
+
+Resources:
+  CWAgentConfigParameter:
+    Type: AWS::SSM::Parameter
+    Properties:
+      Name: /CloudWatch/AgentConfig
+      Type: String
+      Value: |
+        {
+          "agent": {
+            "metrics_collection_interval": 60,
+            "logfile": "/opt/aws/amazon-cloudwatch-agent/logs/agent.log"
+          },
+          "logs": {
+            "logs_collected": {
+              "files": {
+                "collect_list": [
+                  {
+                    "file_path": "/var/log/messages",
+                    "log_group_name": "EC2-System-Logs",
+                    "log_stream_name": "{instance_id}"
+                  },
+                  {
+                    "file_path": "/var/log/httpd/access_log",
+                    "log_group_name": "WebServer-AccessLogs",
+                    "log_stream_name": "{instance_id}"
+                  }
+                ]
+              }
+            }
+          }
+        }
+
+
+

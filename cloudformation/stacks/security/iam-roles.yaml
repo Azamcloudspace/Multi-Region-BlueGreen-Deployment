@@ -1,0 +1,168 @@
+AWSTemplateFormatVersion: 2010-09-09
+
+Parameters:
+  EnvironmentName:
+    Type: String
+
+Resources:
+  
+  TestBuildRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Sub "${EnvironmentName}-test-build-role"
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: codebuild.amazonaws.com
+            Action: sts:AssumeRole
+      Policies:
+        - PolicyName: CodeBuildBasePolicy
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+
+              - Effect: Allow
+                Action:
+                  - logs:CreateLogGroup
+                  - logs:CreateLogStream
+                  - logs:PutLogEvents
+                Resource: "*"
+
+              - Effect: Allow
+                Action:
+                  - s3:GetObject
+                  - s3:PutObject
+                  - s3:GetObjectVersion
+                Resource: "*"
+                
+              - Effect: Allow
+                Action:
+                  - codebuild:CreateReportGroup
+                  - codebuild:CreateReport
+                  - codebuild:UpdateReport
+                  - codebuild:BatchPutTestCases
+                  - codebuild:BatchPutCodeCoverages
+                Resource: "*"
+
+  CodeDeployServiceRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Sub "${EnvironmentName}-CodeDeployRole"
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - codedeploy.amazonaws.com
+            Action:
+              - sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AWSCodeDeployRole
+
+      Policies:
+        - PolicyName: CodeDeployAutoScalingPolicy
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - autoscaling:*
+                Resource: "*"
+              - Effect: Allow
+                Action:
+                  - ec2:*
+                Resource: "*"
+              - Effect: Allow
+                Action:
+                  - elasticloadbalancing:*
+                Resource: "*"
+              - Effect: Allow
+                Action:
+                  - iam:PassRole
+                Resource: "*"
+              - Effect: Allow
+                Action:
+                  - cloudwatch:*
+                Resource: "*"
+              - Effect: Allow
+                Action:
+                  - sns:Publish
+                Resource: "*"
+              - Effect: Allow
+                Action:
+                  - lambda:InvokeFunction
+                Resource: "*"
+
+  InstanceRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Sub "${EnvironmentName}-InstanceRole"
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: 
+                - ec2.amazonaws.com
+            Action: 
+              - sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/AmazonS3ReadOnlyAccess
+        - arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy
+      
+
+  ReplicationRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Sub "${EnvironmentName}-s3-replication-role"
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: s3.amazonaws.com
+            Action: sts:AssumeRole
+      Policies:
+        - PolicyName: s3-replication-policy
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action:
+                  - s3:GetReplicationConfiguration
+                  - s3:ListBucket
+                Resource: !Sub "arn:aws:s3:::${EnvironmentName}-primary-dr-bucket-${AWS::Region}"
+              - Effect: Allow
+                Action:
+                  - s3:GetObjectVersion
+                  - s3:GetObjectVersionAcl
+                  - s3:GetObjectVersionTagging
+                Resource: !Sub "arn:aws:s3:::${EnvironmentName}-primary-dr-bucket-${AWS::Region}/*"
+              - Effect: Allow
+                Action:
+                  - s3:ReplicateObject
+                  - s3:ReplicateDelete
+                  - s3:ReplicateTags
+                Resource: arn:aws:s3:::dev-secondary-dr-bucket-us-west-1/*
+
+Outputs: 
+  TestBuildRoleArn:
+    Value: !GetAtt TestBuildRole.Arn
+  
+  CodeDeployServiceRoleArn:
+    Value: !GetAtt CodeDeployServiceRole.Arn
+
+  InstanceRoleArn:
+    Value: !GetAtt InstanceRole.Arn
+
+  ReplicationRoleArn:
+    Value: !GetAtt ReplicationRole.Arn
+    
+
+  
+    
+    
+
