@@ -15,7 +15,7 @@ Resources:
   DAlertTopic:
     Type: AWS::SNS::Topic
     Properties:
-      TopicName: !Ref TopicName
+      TopicName: !Sub ${EnvironmentName}-${TopicName}
       Tags:
         - Key: Name
           Value: !Sub "${EnvironmentName}-DAlertTopic"
