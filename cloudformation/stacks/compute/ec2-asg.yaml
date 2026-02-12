@@ -28,6 +28,7 @@ Resources:
   AppSecurityGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
+      GroupName: !Sub "{EnvironmentName}-AppSecGroup"
       GroupDescription: Allow http access ALB Only
       VpcId: !Ref VpcId
       SecurityGroupIngress:
@@ -71,6 +72,7 @@ Resources:
   LaunchTemplate:
     Type: AWS::EC2::LaunchTemplate
     Properties:
+      LaunchTemplateName: !Sub "${EnvironmentName}-App-lt"
       LaunchTemplateData:
         ImageId: !Ref InstanceAmiId
         InstanceType: !Ref InstanceType
@@ -105,6 +107,7 @@ Resources:
   AutoScalingGroup:
     Type: AWS::AutoScaling::AutoScalingGroup
     Properties:
+      AutoScalingGroupName: !Sub "${EnvironmentName}-app-asg"
       VPCZoneIdentifier:
         - !Ref PrivateSubnet1
         - !Ref PrivateSubnet2
@@ -144,6 +147,7 @@ Outputs:
 
 
  
+
 
 
 
