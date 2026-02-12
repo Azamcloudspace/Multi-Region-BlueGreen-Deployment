@@ -1,0 +1,78 @@
+[
+  {
+    "ParameterKey": "EnvironmentName",
+    "ParameterValue": "dev"
+  },
+  {
+    "ParameterKey": "VpcCidr",
+    "ParameterValue": "10.5.0.0/16"
+  },
+  {
+    "ParameterKey": "PublicSubnet1Cidr",
+    "ParameterValue": "10.5.1.0/24"
+  },
+  {
+    "ParameterKey": "PublicSubnet2Cidr",
+    "ParameterValue": "10.5.2.0/24"
+  },
+  {
+    "ParameterKey": "PrivateSubnet1Cidr",
+    "ParameterValue": "10.5.3.0/24"
+  },
+  {
+    "ParameterKey": "PrivateSubnet2Cidr",
+    "ParameterValue": "10.5.4.0/24"
+  },
+  {
+    "ParameterKey": "InstanceType",
+    "ParameterValue": "t2.micro"
+  },
+  {
+    "ParameterKey": "InstanceAmiId",
+    "ParameterValue": "ami-0993d3759749c153c"
+  },
+  {
+    "ParameterKey": "DBInstanceClassReplica",
+    "ParameterValue": "db.t3.micro"
+  },
+  {
+    "ParameterKey": "GitHubRepo",
+    "ParameterValue": "Multi-region-DR-deployment"
+  },
+  {
+    "ParameterKey": "GitHubOwner",
+    "ParameterValue": "Azamcloudspace"
+  },
+  {
+    "ParameterKey": "CodeStarConnectionArn",
+    "ParameterValue": "arn:aws:codeconnections:us-east-1:975050225555:connection/b764abe8-bf03-4f0f-bfd5-d00aaa612924"
+  },
+  {
+    "ParameterKey": "PrimaryALBZoneId",
+    "ParameterValue": "/dr/primary/alb/zoneid"
+  },
+  {
+    "ParameterKey": "SecondaryALBZoneId",
+    "ParameterValue": "/dr/secondary/alb/zoneid"
+  },
+  {
+    "ParameterKey": "PrimaryALBDNS",
+    "ParameterValue": "/dr/primary/alb/dns"
+  },
+  {
+    "ParameterKey": "SecondaryALBDNS",
+    "ParameterValue": "/dr/secondary/alb/dns"
+  },
+  {
+    "ParameterKey": "HostedZoneId",
+    "ParameterValue": "Z0040497NT0F8RUQMJK"
+  },
+  {
+    "ParameterKey": "HostedZoneName",
+    "ParameterValue": "azamcloudspace.click"
+  },
+  {
+    "ParameterKey": "SourceDBArn",
+    "ParameterValue": "/myapp/secondary/dbarn"
+  }
+]
