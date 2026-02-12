@@ -87,6 +87,7 @@ Resources:
   Pipeline:
     Type: AWS::CodePipeline::Pipeline
     Properties:
+      Name: !Sub "${EnvironmentName}-pipeline"
       RoleArn: !GetAtt CodePipelineRole.Arn
       ArtifactStore:
         Type: S3
@@ -145,6 +146,7 @@ Resources:
 Outputs:
   PipelineName:
     Value: !Ref Pipeline
+
 
 
 
