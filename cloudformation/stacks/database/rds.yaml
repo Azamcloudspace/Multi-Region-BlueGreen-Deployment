@@ -36,6 +36,7 @@ Resources:
   RDSSecurityGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
+      GroupName: !Sub "${EnvironmentName}-rds-sg"
       GroupDescription: Allow DB access from app security group
       VpcId: !Ref VpcId
       SecurityGroupIngress:
@@ -50,6 +51,7 @@ Resources:
   DBSubnetGroup:
     Type: AWS::RDS::DBSubnetGroup
     Properties:
+      DBSubnetGroupName: !Sub "${EnvironmentName}-db-subnet-group"
       DBSubnetGroupDescription: Subnet group for primary RDS
       SubnetIds:
         - !Ref PrivateSubnet1
@@ -81,14 +83,14 @@ Resources:
   WritePrimaryDBArn:
     Type: AWS::SSM::Parameter
     Properties:
-      Name: "/myapp/primary/dbarn"
+      Name: !Sub "/${EnvironmentName}/myapp/primary/dbarn"
       Type: String
       Value: !GetAtt PrimaryDB.DBInstanceArn
 
   WritePrimaryDBEndpoint:
     Type: AWS::SSM::Parameter
     Properties:
-      Name: "/myapp/primary/dbendpoint"
+      Name: !Sub "/${EnvironmentName}/myapp/primary/dbendpoint"
       Type: String
       Value: !GetAtt PrimaryDB.Endpoint.Address
 
@@ -102,6 +104,7 @@ Outputs:
 
   RDSSecurityGroupId:
     Value: !Ref RDSSecurityGroup
+
 
 
 
