@@ -97,9 +97,10 @@
   },
   {
     "ParameterKey": "AllocatedStorage",
-    "ParameterValue": "20"
+    "ParameterValue": "50"
   }
 ]
+
 
 
 
