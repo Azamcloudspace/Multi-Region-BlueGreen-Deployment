@@ -17,7 +17,7 @@ Resources:
   PrimaryHealthAlarm:
     Type: AWS::CloudWatch::Alarm
     Properties:
-      AlarmName: !Sub "${AlarmName}-Primary"
+      AlarmName: !Sub "${EnvironmentName}-${AlarmName}-Primary"
       AlarmDescription: Triggers when ALB has no healthy targets
       Namespace: AWS/ApplicationELB
       MetricName: !Ref TargetMetricName
@@ -39,6 +39,7 @@ Resources:
 Outputs:
   AlarmNameOut:
     Value: !Ref PrimaryHealthAlarm
+
 
 
 
