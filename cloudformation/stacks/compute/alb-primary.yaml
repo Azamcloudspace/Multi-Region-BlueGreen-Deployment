@@ -81,14 +81,14 @@ Resources:
   PrimaryALBDNSParam:
     Type: AWS::SSM::Parameter
     Properties:
-      Name: /dr/primary/alb/dns
+      Name: !Sub "/${EnvironmentName}/dr/primary/alb/dns"
       Type: String
       Value: !GetAtt ALBPrimary.DNSName
 
   PrimaryALBZoneParam:
     Type: AWS::SSM::Parameter
     Properties:
-      Name: /dr/primary/alb/zoneid
+      Name: !Sub "/${EnvironmentName}/dr/primary/alb/zoneid"
       Type: String
       Value: !GetAtt ALBPrimary.CanonicalHostedZoneID
 
@@ -105,6 +105,7 @@ Outputs:
 
   Listener:
     Value: !Ref Listener
+
 
 
 
