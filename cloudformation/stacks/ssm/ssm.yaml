@@ -8,7 +8,7 @@ Resources:
   CWAgentConfigParameter:
     Type: AWS::SSM::Parameter
     Properties:
-      Name: !Sub "${EnvironmentName}/CloudWatch/AgentConfig"
+      Name: !Sub "/${EnvironmentName}/CloudWatch/AgentConfig"
       Type: String
       Value: |
         {
@@ -35,6 +35,7 @@ Resources:
             }
           }
         }
+
 
 
 
