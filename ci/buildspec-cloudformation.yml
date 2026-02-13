@@ -11,7 +11,7 @@ phases:
       - aws s3 sync cloudformation/stacks/ s3://iac-bucket-azamcloud/
       - aws cloudformation deploy --template-file cloudformation/master/primary.yaml --stack-name Dev-Multi-Region-BlueGreen-Stack-East --capabilities CAPABILITY_NAMED_IAM --parameter-overrides file://params/dev/dev_params_primary.json --region us-east-1
       - value1=$(aws ssm get-parameter --name "/dev/myapp/primary/dbarn" --region us-east-1 --query 'Parameter.Value' --output text)
-      - aws ssm put-parameter --name "/dev/myapp/secondary/dbarn" --value "$value1 --type String --overwrite --region us-west-1
+      - aws ssm put-parameter --name "/dev/myapp/secondary/dbarn" --value "$value1" --type String --overwrite --region us-west-1
       - value2=$(aws ssm get-parameter --name "/dev/dr/primary/alb/dns" --region us-east-1 --query 'Parameter.Value' --output text)
       - aws ssm put-parameter --name "/dev/dr/primary/alb/dns" --value "$value2" --type String --overwrite --region us-west-1
       - value3=$(aws ssm get-parameter --name "/dev/dr/primary/alb/zoneid" --region us-east-1 --query 'Parameter.Value' --output text)
