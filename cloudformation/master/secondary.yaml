@@ -120,7 +120,7 @@ Resources:
     Properties:
       TemplateURL: https://iac-bucket-azamcloud.s3.us-east-1.amazonaws.com/storage/s3-secondary.yaml
       Parameters:
-        EnvironmentName: !Ref EnviromentName
+        EnvironmentName: !Ref EnvironmentName
         
   SsmStack:
     Type: AWS::CloudFormation::Stack
@@ -142,6 +142,7 @@ Resources:
         PrimaryALBDNS: !Ref PrimaryALBDNS
         SecondaryALBDNS: !Ref SecondaryALBDNS
         HostedZoneId: !Ref HostedZoneId
+
 
 
 
