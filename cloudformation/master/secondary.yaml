@@ -46,7 +46,7 @@ Resources:
   NetworkStack:
     Type: AWS::CloudFormation::Stack
     Properties:
-      TemplateURL: cloudformation/stacks/network/vpc.yaml
+      TemplateURL: https://iac-bucket-azamcloud.s3.us-east-1.amazonaws.com/cloudformation/stacks/network/vpc.yaml
       Parameters:
         EnvironmentName: !Ref EnvironmentName
         VpcCidr: !Ref VpcCidr
@@ -59,7 +59,7 @@ Resources:
     Type: AWS::CloudFormation::Stack
     DependsOn: SsmStack
     Properties:
-      TemplateURL: cloudformation/stacks/compute/ec2-asg.yaml
+      TemplateURL: https://iac-bucket-azamcloud.s3.us-east-1.amazonaws.com/cloudformation/stacks/compute/ec2-asg.yaml
       Parameters:
         EnvironmentName: !Ref EnvironmentName
         InstanceAmiId: !Ref InstanceAmiId
@@ -72,7 +72,7 @@ Resources:
   ALBStackSecondary:
     Type: AWS::CloudFormation::Stack
     Properties:
-      TemplateURL: cloudformation/stacks/compute/alb-secondary.yaml
+      TemplateURL: https://iac-bucket-azamcloud.s3.us-east-1.amazonaws.com/cloudformation/stacks/compute/alb-secondary.yaml
       Parameters:
         EnvironmentName: !Ref EnvironmentName
         VpcId: !GetAtt NetworkStack.Outputs.VpcId
@@ -85,7 +85,7 @@ Resources:
   DatabaseStackSecondary:
     Type: AWS::CloudFormation::Stack
     Properties:
-      TemplateURL: cloudformation/stacks/database/rds-replica.yaml
+      TemplateURL: https://iac-bucket-azamcloud.s3.us-east-1.amazonaws.com/cloudformation/stacks/database/rds-replica.yaml
       Parameters:
         DBInstanceClassReplica: !Ref DBInstanceClassReplica
         SourceDBArn: !Ref SourceDBArn
@@ -93,21 +93,21 @@ Resources:
   CodeDeployStack:
     Type: AWS::CloudFormation::Stack
     Properties:
-      TemplateURL: cloudformation/stacks/ci-cd/codedeploy.yaml
+      TemplateURL: https://iac-bucket-azamcloud.s3.us-east-1.amazonaws.com/cloudformation/stacks/ci-cd/codedeploy.yaml
       Parameters:
         EnvironmentName: !Ref EnvironmentName
 
   CodeBuildStack:
     Type: AWS::CloudFormation::Stack
     Properties:
-      TemplateURL: cloudformation/stacks/ci-cd/testbuild.yaml
+      TemplateURL: https://iac-bucket-azamcloud.s3.us-east-1.amazonaws.com/cloudformation/stacks/ci-cd/testbuild.yaml
       Parameters:
         EnvironmentName: !Ref EnvironmentName
 
   CodepipelineStackSecondary:
     Type: AWS::CloudFormation::Stack
     Properties:
-      TemplateURL: cloudformation/stacks/ci-cd/codepipeline-seconadary.yaml
+      TemplateURL: https://iac-bucket-azamcloud.s3.us-east-1.amazonaws.com/cloudformation/stacks/ci-cd/codepipeline-seconadary.yaml
       Parameters:
         EnvironmentName: !Ref EnvironmentName
         GitHubRepo: !Ref GitHubRepo
@@ -118,14 +118,14 @@ Resources:
   SecondaryBucketStack:
     Type: AWS::CloudFormation::Stack
     Properties:
-      TemplateURL: cloudformation/stacks/storage/s3-secondary.yaml
+      TemplateURL: https://iac-bucket-azamcloud.s3.us-east-1.amazonaws.com/cloudformation/stacks/storage/s3-secondary.yaml
       Parameters:
         EnvironmentName: !Ref EnviromentName
         
   SsmStack:
     Type: AWS::CloudFormation::Stack
     Properties:
-      TemplateURL: cloudformation/stacks/ssm/ssm.yaml
+      TemplateURL: https://iac-bucket-azamcloud.s3.us-east-1.amazonaws.com/cloudformation/stacks/ssm/ssm.yaml
       Parameters:
         EnvironmentName: !Ref EnvironmentName
 
@@ -133,7 +133,7 @@ Resources:
     Type: AWS::CloudFormation::Stack
     DependsOn: ALBStackSecondary
     Properties:
-      TemplateURL: cloudformation/stacks/network/route53.yaml
+      TemplateURL: https://iac-bucket-azamcloud.s3.us-east-1.amazonaws.com/cloudformation/stacks/network/route53.yaml
       Parameters:
         EnvironmentName: !Ref EnvironmentName
         HostedZoneName: !Ref HostedZoneName
@@ -142,6 +142,7 @@ Resources:
         PrimaryALBDNS: !Ref PrimaryALBDNS
         SecondaryALBDNS: !Ref SecondaryALBDNS
         HostedZoneId: !Ref HostedZoneId
+
 
 
 
