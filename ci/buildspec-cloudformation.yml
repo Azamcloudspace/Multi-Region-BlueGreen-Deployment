@@ -17,8 +17,7 @@ phases:
       - value=$(aws ssm get-parameter --name "/dr/primary/alb/zoneid" --region us-east-1 --query 'Parameter.Value' --output text)
       - aws ssm put-parameter --name "/dr/primary/alb/zoneid" --value "$value" --type String --overwrite --region us-west-1
       - aws cloudformation deploy --template-file cloudformation/master/secondary.yaml --stack-name DEV-Multi-RegionDR-Stack-West --capabilities CAPABILITY_NAMED_IAM --parameter-overrides file://params/dev/dev-params-secondary.json --region us-west-1
-      - aws s3api put-bucket-replication --bucket dev-primary-dr-bucket-us-east-1 --replication-configuration file://Infrastructure/replication.json --region us-east-1
-     
+      - aws s3api put-bucket-replication --bucket dev-primary-dr-bucket-us-east-1 --replication-configuration file://s3-replication-file/replication.json --region us-east-1
 
 artifacts:
   files:
