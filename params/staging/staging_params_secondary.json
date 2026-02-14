@@ -73,6 +73,6 @@
   },
   {
     "ParameterKey": "SourceDBArn",
-    "ParameterValue": "/myapp/secondary/dbarn"
+    "ParameterValue": "/staging/myapp/secondary/dbarn"
   }
 ]
