@@ -33,11 +33,11 @@
   },
   {
     "ParameterKey": "DBUsername",
-    "ParameterValue": "/dev/db/rds/username"
+    "ParameterValue": "/db/rds/username"
   },
   {
     "ParameterKey": "DBPassword",
-    "ParameterValue": "/dev/db/rds/password"
+    "ParameterValue": "/db/rds/password"
   },
   {
     "ParameterKey": "DBInstanceClass",
