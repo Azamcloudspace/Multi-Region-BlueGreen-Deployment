@@ -1,7 +1,7 @@
 [
   {
     "ParameterKey": "EnvironmentName",
-    "ParameterValue": "dev"
+    "ParameterValue": "prod"
   },
   {
     "ParameterKey": "VpcCidr",
@@ -49,19 +49,19 @@
   },
   {
     "ParameterKey": "PrimaryALBZoneId",
-    "ParameterValue": "/dr/primary/alb/zoneid"
+    "ParameterValue": "/prod/dr/primary/alb/zoneid"
   },
   {
     "ParameterKey": "SecondaryALBZoneId",
-    "ParameterValue": "/dr/secondary/alb/zoneid"
+    "ParameterValue": "/prod/dr/secondary/alb/zoneid"
   },
   {
     "ParameterKey": "PrimaryALBDNS",
-    "ParameterValue": "/dr/primary/alb/dns"
+    "ParameterValue": "/prod/dr/primary/alb/dns"
   },
   {
     "ParameterKey": "SecondaryALBDNS",
-    "ParameterValue": "/dr/secondary/alb/dns"
+    "ParameterValue": "/prod/dr/secondary/alb/dns"
   },
   {
     "ParameterKey": "HostedZoneId",
@@ -73,9 +73,10 @@
   },
   {
     "ParameterKey": "SourceDBArn",
-    "ParameterValue": "/myapp/secondary/dbarn"
+    "ParameterValue": "/prod/myapp/secondary/dbarn"
   }
 ]
+
 
 
 
