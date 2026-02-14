@@ -52,22 +52,6 @@
     "ParameterValue": "db.t3.medium"
   },
   {
-    "ParameterKey": "PrimaryALBZoneId",
-    "ParameterValue": "/dr/primary/alb/zoneid"
-  },
-  {
-    "ParameterKey": "SecondaryALBZoneId",
-    "ParameterValue": "/dr/secondary/alb/zoneid"
-  },
-  {
-    "ParameterKey": "PrimaryALBDNS",
-    "ParameterValue": "/dr/primary/alb/dns"
-  },
-  {
-    "ParameterKey": "SecondaryALBDNS",
-    "ParameterValue": "/dr/secondary/alb/dns"
-  },
-  {
     "ParameterKey": "GitHubRepo",
     "ParameterValue": "Multi-region-DR-deployment"
   },
@@ -100,6 +84,7 @@
     "ParameterValue": "50"
   }
 ]
+
 
 
 
