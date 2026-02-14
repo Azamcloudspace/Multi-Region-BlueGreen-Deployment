@@ -49,19 +49,19 @@
   },
   {
     "ParameterKey": "PrimaryALBZoneId",
-    "ParameterValue": "/dr/primary/alb/zoneid"
+    "ParameterValue": "/staging/dr/primary/alb/zoneid"
   },
   {
     "ParameterKey": "SecondaryALBZoneId",
-    "ParameterValue": "/dr/secondary/alb/zoneid"
+    "ParameterValue": "/staging/dr/secondary/alb/zoneid"
   },
   {
     "ParameterKey": "PrimaryALBDNS",
-    "ParameterValue": "/dr/primary/alb/dns"
+    "ParameterValue": "/staging/dr/primary/alb/dns"
   },
   {
     "ParameterKey": "SecondaryALBDNS",
-    "ParameterValue": "/dr/secondary/alb/dns"
+    "ParameterValue": "/staging/dr/secondary/alb/dns"
   },
   {
     "ParameterKey": "HostedZoneId",
