@@ -79,14 +79,14 @@ Resources:
   SecondaryALBDNSParam:
     Type: AWS::SSM::Parameter
     Properties:
-      Name: !Sub "${EnvironmentName}/dr/secondary/alb/dns"
+      Name: !Sub "/${EnvironmentName}/dr/secondary/alb/dns"
       Type: String
       Value: !GetAtt ALBSecondary.DNSName
   
   SecondaryALBZoneParam:
     Type: AWS::SSM::Parameter
     Properties:
-      Name: !Sub "${EnvironmentName}/dr/secondary/alb/zoneid"
+      Name: !Sub "/${EnvironmentName}/dr/secondary/alb/zoneid"
       Type: String
       Value: !GetAtt ALBSecondary.CanonicalHostedZoneID
   
@@ -105,6 +105,7 @@ Outputs:
     Value: !Ref ALBSecondary
 
   
+
 
 
 
