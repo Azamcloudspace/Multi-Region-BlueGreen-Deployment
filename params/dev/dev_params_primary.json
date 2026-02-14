@@ -52,22 +52,6 @@
     "ParameterValue": "db.t3.micro"
   },
   {
-    "ParameterKey": "PrimaryALBZoneId",
-    "ParameterValue": "/dev/dr/primary/alb/zoneid"
-  },
-  {
-    "ParameterKey": "SecondaryALBZoneId",
-    "ParameterValue": "/dev/dr/secondary/alb/zoneid"
-  },
-  {
-    "ParameterKey": "PrimaryALBDNS",
-    "ParameterValue": "/dev/dr/primary/alb/dns"
-  },
-  {
-    "ParameterKey": "SecondaryALBDNS",
-    "ParameterValue": "/dev/dr/secondary/alb/dns"
-  },
-  {
     "ParameterKey": "GitHubRepo",
     "ParameterValue": "Multi-region-DR-deployment"
   },
