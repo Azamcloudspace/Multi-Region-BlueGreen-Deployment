@@ -33,11 +33,11 @@
   },
   {
     "ParameterKey": "DBUsername",
-    "ParameterValue": "/db/rds/username"
+    "ParameterValue": "/dev/db/rds/username"
   },
   {
     "ParameterKey": "DBPassword",
-    "ParameterValue": "/db/rds/password"
+    "ParameterValue": "/dev/db/rds/password"
   },
   {
     "ParameterKey": "DBInstanceClass",
@@ -53,19 +53,19 @@
   },
   {
     "ParameterKey": "PrimaryALBZoneId",
-    "ParameterValue": "/dr/primary/alb/zoneid"
+    "ParameterValue": "/dev/dr/primary/alb/zoneid"
   },
   {
     "ParameterKey": "SecondaryALBZoneId",
-    "ParameterValue": "/dr/secondary/alb/zoneid"
+    "ParameterValue": "/dev/dr/secondary/alb/zoneid"
   },
   {
     "ParameterKey": "PrimaryALBDNS",
-    "ParameterValue": "/dr/primary/alb/dns"
+    "ParameterValue": "/dev/dr/primary/alb/dns"
   },
   {
     "ParameterKey": "SecondaryALBDNS",
-    "ParameterValue": "/dr/secondary/alb/dns"
+    "ParameterValue": "/dev/dr/secondary/alb/dns"
   },
   {
     "ParameterKey": "GitHubRepo",
