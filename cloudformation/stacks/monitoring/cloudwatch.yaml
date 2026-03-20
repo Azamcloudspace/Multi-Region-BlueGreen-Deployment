@@ -14,6 +14,15 @@ Parameters:
     Type: String
 
 Resources:
+
+Resources:
+  VpcLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: vpc-logs
+      RetentionInDays: 7
+      
+
   PrimaryHealthAlarm:
     Type: AWS::CloudWatch::Alarm
     Properties:
