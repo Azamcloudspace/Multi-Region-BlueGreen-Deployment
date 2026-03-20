@@ -19,7 +19,7 @@ Resources:
   VpcLogGroup:
     Type: AWS::Logs::LogGroup
     Properties:
-      LogGroupName: vpc-logs
+      LogGroupName: Vpc-logs
       RetentionInDays: 7
       
 
