@@ -49,6 +49,9 @@ Outputs:
   AlarmNameOut:
     Value: !Ref PrimaryHealthAlarm
 
+  VpcLogGroupName:
+    Value: !Ref VpcLogGroup
+
 
 
 
