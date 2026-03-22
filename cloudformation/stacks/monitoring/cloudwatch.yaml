@@ -16,12 +16,17 @@ Parameters:
 Resources:
 
 Resources:
-  VpcLogGroup:
+  SNSLogGroup:
     Type: AWS::Logs::LogGroup
     Properties:
-      LogGroupName: Vpc-logs
+      LogGroupName: !Sub ${EnvironmentName}-${AWS::Region}-SNSLogGroup
       RetentionInDays: 7
-      
+
+  Route53LogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Sub ${EnvironmentName}-Route53Group
+      RetentionInDays: 7
 
   PrimaryHealthAlarm:
     Type: AWS::CloudWatch::Alarm
