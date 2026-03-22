@@ -39,14 +39,14 @@ Resources:
           - Sid: ALBLogDeliveryWrite
             Effect: Allow
             Principal:
-              AWS: arn:aws:iam::027434742980:root
+              Service: logdelivery.elasticloadbalancing.amazonaws.com
             Action: s3:PutObject
             Resource: !Sub "arn:aws:s3:::${AlbLogBucketSecondary}/AWSLogs/${AWS::AccountId}/*"
          
           - Sid: ALBLogDeliveryAclCheck
             Effect: Allow
             Principal:
-              AWS: arn:aws:iam::027434742980:root
+              Service: logdelivery.elasticloadbalancing.amazonaws.com
             Action: s3:GetBucketAcl
             Resource: !Sub "arn:aws:s3:::${AlbLogBucketSecondary}"
 
