@@ -36,15 +36,13 @@ Resources:
       PolicyDocument:
         Version: "2012-10-17"
         Statement:
-          - Sid: ALBLogDeliveryWrite
-            Effect: Allow
+          - Effect: Allow
             Principal:
               Service: logdelivery.elasticloadbalancing.amazonaws.com
             Action: s3:PutObject
             Resource: !Sub "arn:aws:s3:::${AlbLogBucketSecondary}/AWSLogs/${AWS::AccountId}/*"
          
-          - Sid: ALBLogDeliveryAclCheck
-            Effect: Allow
+          - Effect: Allow
             Principal:
               Service: logdelivery.elasticloadbalancing.amazonaws.com
             Action: s3:GetBucketAcl
