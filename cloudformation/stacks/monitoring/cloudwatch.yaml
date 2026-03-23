@@ -15,12 +15,6 @@ Parameters:
 
 Resources:
 
-  VpcLogGroup:
-    Type: AWS::Logs::LogGroup
-    Properties:
-      LogGroupName: !Sub "${EnvironmentName}-${AWS::Region}-vpcloggroup"
-      RetentionInDays: 14
-
   PrimaryHealthAlarm:
     Type: AWS::CloudWatch::Alarm
     Properties:
@@ -47,8 +41,6 @@ Outputs:
   AlarmNameOut:
     Value: !Ref PrimaryHealthAlarm
 
-  VpcLogGroupName:
-    Value: !Ref VpcLogGroup
 
 
 
