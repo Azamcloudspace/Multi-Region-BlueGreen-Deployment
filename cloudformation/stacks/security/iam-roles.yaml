@@ -148,30 +148,6 @@ Resources:
                   - s3:ReplicateTags
                 Resource: arn:aws:s3:::dev-secondary-dr-bucket-us-west-1/*
                 
-  VpcFlowLogsRole:
-    Type: AWS::IAM::Role
-    Properties:
-      RoleName: !Sub "${EnvironmentName}-vpcflowlogs"
-      AssumeRolePolicyDocument:
-        Version: '2012-10-17'
-        Statement:
-          - Effect: Allow
-            Principal:
-              Service: vpc-flow-logs.amazonaws.com
-            Action: sts:AssumeRole
-      Policies:
-        - PolicyName: FlowLogsPolicy
-          PolicyDocument:
-            Version: '2012-10-17'
-            Statement:
-              - Effect: Allow
-                Action:
-                  - logs:CreateLogStream
-                  - logs:PutLogEvents
-                Resource: 
-                  - "arn:aws:logs:us-east-1:975050225555:log-group:dev-us-east-1-vpcloggroup:*"
-                  - "arn:aws:logs:us-west-1:975050225555:log-group:dev-us-west-1-vpcloggroup:*"
-
 Outputs: 
   TestBuildRoleArn:
     Value: !GetAtt TestBuildRole.Arn
@@ -185,8 +161,6 @@ Outputs:
   ReplicationRoleArn:
     Value: !GetAtt ReplicationRole.Arn
 
-  VpcFlowLogsRoleArn:
-    Value: !GetAtt VpcFlowLogsRole.Arn
     
 
   
