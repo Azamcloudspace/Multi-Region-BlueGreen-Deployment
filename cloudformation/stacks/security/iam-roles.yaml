@@ -168,7 +168,7 @@ Resources:
                 Action:
                   - logs:CreateLogStream
                   - logs:PutLogEvents
-                Resource: ""
+                Resource: "arn:aws:logs:us-east-1:975050225555:log-group:/TestLog/logs:*"
 
 Outputs: 
   TestBuildRoleArn:
