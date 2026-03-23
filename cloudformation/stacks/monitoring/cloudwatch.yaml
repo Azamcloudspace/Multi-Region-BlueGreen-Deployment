@@ -15,7 +15,7 @@ Parameters:
 
 Resources:
 
-  VPCFlowLogGroup:
+  VpcLogGroup:
     Type: AWS::Logs::LogGroup
     Properties:
       LogGroupName: !Sub "${EnvironmentName}-${AWS::Region}-vpcloggroup"
