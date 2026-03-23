@@ -170,6 +170,7 @@ Resources:
                   - logs:PutLogEvents
                 Resource: 
                   - "arn:aws:logs:us-east-1:975050225555:log-group:dev-us-east-1-vpcloggroup:*"
+                  - "arn:aws:logs:us-west-1:975050225555:log-group:dev-us-west-1-vpcloggroup:*"
 
 Outputs: 
   TestBuildRoleArn:
