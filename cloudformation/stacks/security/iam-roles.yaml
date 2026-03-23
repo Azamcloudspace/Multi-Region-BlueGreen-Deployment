@@ -147,6 +147,28 @@ Resources:
                   - s3:ReplicateDelete
                   - s3:ReplicateTags
                 Resource: arn:aws:s3:::dev-secondary-dr-bucket-us-west-1/*
+                
+  VPCFlowLogRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: VPCFlowLogsRole
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: vpc-flow-logs.amazonaws.com
+            Action: sts:AssumeRole
+      Policies:
+        - PolicyName: FlowLogsPolicy
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - logs:CreateLogStream
+                  - logs:PutLogEvents
+                Resource: ""
 
 Outputs: 
   TestBuildRoleArn:
