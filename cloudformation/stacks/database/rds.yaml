@@ -76,6 +76,9 @@ Resources:
         - !Ref RDSSecurityGroup
       EnableCloudwatchLogsExports:
         - postgresql
+        - error
+        - slowquery
+        - general
       Tags:
         - Key: Name
           Value: !Sub "${EnvironmentName}-Primary-DB"
