@@ -15,12 +15,10 @@ Parameters:
 
 Resources:
 
-Resources:
-
   VPCFlowLogGroup:
     Type: AWS::Logs::LogGroup
     Properties:
-      LogGroupName: /vpc/flowlogs
+      LogGroupName: !Sub "${EnvironmentName}-${AWS::Region}-vpcloggroup"
       RetentionInDays: 14
 
   PrimaryHealthAlarm:
