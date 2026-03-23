@@ -16,7 +16,12 @@ Parameters:
 Resources:
 
 Resources:
-  SNSLogGroup:
+
+  VPCFlowLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: /vpc/flowlogs
+      RetentionInDays: 14
 
   PrimaryHealthAlarm:
     Type: AWS::CloudWatch::Alarm
