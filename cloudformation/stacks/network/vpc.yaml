@@ -41,7 +41,7 @@ Resources:
       TrafficType: ALL
       LogDestinationType: cloud-watch-logs
       LogGroupName: !Ref VpcLogGroup
-      DeliverLogsPermissionArn: arn:aws:iam::975050225555:role/
+      DeliverLogsPermissionArn: !Sub "arn:aws:iam::975050225555:role/${EnvironmentName}-vpcflowlogs"
 
   InternetGateway:
     Type: AWS::EC2::InternetGateway
