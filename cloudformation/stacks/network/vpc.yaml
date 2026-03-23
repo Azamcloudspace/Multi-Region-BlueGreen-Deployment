@@ -18,9 +18,6 @@ Parameters:
 
   PrivateSubnet2Cidr:
     Type: String
-
-  VpcLogGroup:
-    Type: String
     
 Resources:
   VPC:
@@ -32,16 +29,6 @@ Resources:
       Tags:
         - Key: Name
           Value: !Sub "${EnvironmentName}-vpc"
-
-  VPCFlowLog:
-    Type: AWS::EC2::FlowLog
-    Properties:
-      ResourceId: !Ref VPC
-      ResourceType: VPC
-      TrafficType: ALL
-      LogDestinationType: cloud-watch-logs
-      LogGroupName: !Ref VpcLogGroup
-      DeliverLogsPermissionArn: !Sub "arn:aws:iam::975050225555:role/${EnvironmentName}-vpcflowlogs"
 
   InternetGateway:
     Type: AWS::EC2::InternetGateway
@@ -101,8 +88,6 @@ Resources:
         - Key: Name
           Value: !Sub "${EnvironmentName}-public-subnet-2"
   
-
-
   PublicRouteTable:
     Type: AWS::EC2::RouteTable
     Properties:
