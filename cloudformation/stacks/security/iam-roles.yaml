@@ -148,10 +148,10 @@ Resources:
                   - s3:ReplicateTags
                 Resource: arn:aws:s3:::dev-secondary-dr-bucket-us-west-1/*
                 
-  VPCFlowLogRole:
+  VpcFlowLogsRole:
     Type: AWS::IAM::Role
     Properties:
-      RoleName: VPCFlowLogsRole
+      RoleName: !Sub "${EnvironmentName}-vpcflowlogs"
       AssumeRolePolicyDocument:
         Version: '2012-10-17'
         Statement:
@@ -184,6 +184,9 @@ Outputs:
 
   ReplicationRoleArn:
     Value: !GetAtt ReplicationRole.Arn
+
+  VpcFlowLogsRoleArn:
+    Value: !GetAtt VpcFlowLogsRole.Arn
     
 
   
