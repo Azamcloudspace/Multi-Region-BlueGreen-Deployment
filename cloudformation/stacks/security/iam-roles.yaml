@@ -82,14 +82,6 @@ Resources:
                 Action:
                   - cloudwatch:*
                 Resource: "*"
-              - Effect: Allow
-                Action:
-                  - sns:Publish
-                Resource: "*"
-              - Effect: Allow
-                Action:
-                  - lambda:InvokeFunction
-                Resource: "*"
 
   InstanceRole:
     Type: AWS::IAM::Role
@@ -129,19 +121,19 @@ Resources:
                 Action:
                   - s3:GetReplicationConfiguration
                   - s3:ListBucket
-                Resource: !Sub "arn:aws:s3:::${EnvironmentName}-primary-dr-bucket-${AWS::Region}"
+                Resource: !Sub "arn:aws:s3:::${EnvironmentName}-primary-dr-bucket-us-east-1"
               - Effect: Allow
                 Action:
                   - s3:GetObjectVersion
                   - s3:GetObjectVersionAcl
                   - s3:GetObjectVersionTagging
-                Resource: !Sub "arn:aws:s3:::${EnvironmentName}-primary-dr-bucket-${AWS::Region}/*"
+                Resource: !Sub "arn:aws:s3:::${EnvironmentName}-primary-dr-bucket-us-east-1/*"
               - Effect: Allow
                 Action:
                   - s3:ReplicateObject
                   - s3:ReplicateDelete
                   - s3:ReplicateTags
-                Resource: arn:aws:s3:::dev-secondary-dr-bucket-us-west-1/*
+                Resource: !Sub "arn:aws:s3:::${EnvironmentName}-secondary-dr-bucket-us-west-1/*"
                 
 Outputs: 
   TestBuildRoleArn:
