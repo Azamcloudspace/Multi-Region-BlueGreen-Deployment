@@ -142,7 +142,7 @@ Resources:
               OutputArtifacts:
                 - Name: TestOutput
               Configuration:
-                ProjectName: !Ref CodeBuildProject
+                ProjectName: !Ref TestBuildProject
 
         - Name: Deploy
           Actions:
