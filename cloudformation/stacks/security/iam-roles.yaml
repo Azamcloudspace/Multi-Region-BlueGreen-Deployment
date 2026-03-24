@@ -38,8 +38,8 @@ Resources:
                   - codebuild:BatchPutTestCases
                   - codebuild:BatchPutCodeCoverages
                 Resource:
-                  - !Sub arn:aws:codebuild:us-east-1:975050225555:project/
-                  - !Sub arn:aws:codebuild:us-west-1:975050225555:project/
+                  - !Sub "arn:aws:codebuild:us-east-1:975050225555:project/${EnvironmentName}-tests"
+                  - !Sub "arn:aws:codebuild:us-west-1:975050225555:project/${EnvironmentName}-tests"
 
   CodeDeployServiceRole:
     Type: AWS::IAM::Role
