@@ -113,7 +113,7 @@ Resources:
         GitHubRepo: !Ref GitHubRepo
         GitHubOwner: !Ref GitHubOwner
         CodeStarConnectionArn: !Ref CodeStarConnectionArn
-        CodeBuildProject: !GetAtt CodeBuildStack.Outputs.CodeBuildProjectName
+        TestBuildProject: !GetAtt CodeBuildStack.Outputs.TestBuildProjectName
 
   SecondaryBucketStack:
     Type: AWS::CloudFormation::Stack
