@@ -18,7 +18,13 @@ Parameters:
   CodeStarConnectionArn:
     Type: String
 
-  CodeBuildProject:
+  TestBuildProject:
+    Type: String
+
+  CodeDeployArn:
+    Type: String
+
+  TestBuildArn: 
     Type: String
 
 Resources:
@@ -68,7 +74,9 @@ Resources:
                   - codedeploy:GetDeploymentGroup
                   - codedeploy:RegisterApplicationRevision
                   - codedeploy:GetDeploymentConfig
-                Resource: "*"
+                Resource: 
+                  - !Ref CodeDeployArn
+                  - !Sub "${CodeDeployArn}/*"
 
               - Effect: Allow
                 Action:
@@ -82,7 +90,9 @@ Resources:
                   - codebuild:StartBuild
                   - codebuild:BatchGetBuilds
                   - codebuild:StopBuild
-                Resource: "*"
+                Resource: 
+                  - !Ref TestBuildArn
+                  - !Sub "${TestBuildArn}/*"
 
   Pipeline:
     Type: AWS::CodePipeline::Pipeline
