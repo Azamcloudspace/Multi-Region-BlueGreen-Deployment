@@ -6,7 +6,7 @@ Parameters:
 
 Resources:
 
-  CodeBuildProject:
+  TestBuildProject:
     Type: AWS::CodeBuild::Project
     Properties:
       Name: !Sub "${EnvironmentName}-tests"
@@ -27,8 +27,11 @@ Resources:
 
 
 Outputs:
-  CodeBuildProjectName:
-    Value: !Ref CodeBuildProject
+  TestBuildProjectName:
+    Value: !Ref TestBuildProject
+
+  TestBuildArn: 
+    Value: !GetAtt TestBuildProject.Arn
 
 
 
