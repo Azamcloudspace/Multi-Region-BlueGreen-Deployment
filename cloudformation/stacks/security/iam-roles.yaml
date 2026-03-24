@@ -29,13 +29,6 @@ Resources:
                   - logs:CreateLogStream
                   - logs:PutLogEvents
                 Resource: "*"
-
-              - Effect: Allow
-                Action:
-                  - s3:GetObject
-                  - s3:PutObject
-                  - s3:GetObjectVersion
-                Resource: "*"
                 
               - Effect: Allow
                 Action:
@@ -44,7 +37,9 @@ Resources:
                   - codebuild:UpdateReport
                   - codebuild:BatchPutTestCases
                   - codebuild:BatchPutCodeCoverages
-                Resource: "*"
+                Resource:
+                  - !Sub arn:aws:codebuild:us-east-1:975050225555:project/
+                  - !Sub arn:aws:codebuild:us-west-1:975050225555:project/
 
   CodeDeployServiceRole:
     Type: AWS::IAM::Role
