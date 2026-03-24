@@ -71,7 +71,9 @@ Resources:
                   - codedeploy:GetDeploymentGroup
                   - codedeploy:RegisterApplicationRevision
                   - codedeploy:GetDeploymentConfig
-                Resource: "*"
+                Resource: 
+                  - !Ref CodeDeployArn
+                  - !Sub "${CodeDeployArn}/*"
               - Effect: Allow
                 Action:
                   - logs:CreateLogGroup
