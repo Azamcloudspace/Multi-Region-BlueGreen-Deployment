@@ -15,3 +15,5 @@ Outputs:
   CodeDeployApplication:
     Value: !Ref CodeDeployApplication
 
+  CodeDeployArn:
+    Value: !GetAtt CodeDeployApplication.Arn
