@@ -24,6 +24,9 @@ Parameters:
   CodeDeployArn:
     Type: String
 
+  TestBuildArn:
+    Type: String
+
 Resources:
 
   ArtifactStoreBucket:
@@ -86,7 +89,10 @@ Resources:
                   - codebuild:StartBuild
                   - codebuild:BatchGetBuilds
                   - codebuild:StopBuild
-                Resource: "*"
+                Resource: 
+                  - !Ref TestBuildArn
+                  - !Sub "${TestBuildArn}/*"
+                  
 
   Pipeline:
     Type: AWS::CodePipeline::Pipeline
