@@ -29,7 +29,17 @@ Resources:
                   - logs:CreateLogStream
                   - logs:PutLogEvents
                 Resource: "*"
-                
+
+              - Effect: Allow
+                Action:
+                  - s3:ListBucket
+                  - s3:GetObject
+                  - s3:PutObject
+                  - s3:GetObjectVersion
+                Resource: 
+                  - !Sub "arn:aws:s3:::${EnvironmentName}-${AWS::Region}-artifacts"
+                  - !Sub "arn:aws:s3:::${EnvironmentName}-${AWS::Region}-artifacts/*"
+                  
               - Effect: Allow
                 Action:
                   - codebuild:CreateReportGroup
