@@ -1,0 +1,18 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      python: 3.11
+
+  pre_build:
+    commands:
+      - ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)
+      
+  build:
+    commands:
+      - aws cloudformation deploy --template-file cloudformation/infrastructure-pipeline/infrastructure-pipeline.yaml --stack-name Infrastructure-Pipeline --capabilities CAPABILITY_NAMED_IAM --role-arn arn:aws:iam::$ACCOUNT_ID:role/cloudformationrole --parameter-overrides file://cloudformation/params/prod-params.json
+
+artifacts:
+  files:
+    - '**/*'
