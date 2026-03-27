@@ -57,6 +57,13 @@ Resources:
 
               - Effect: Allow
                 Action:
+                  - logs:CreateLogGroup
+                  - logs:CreateLogStream
+                  - logs:PutLogEvents
+                Resource: "*"
+
+              - Effect: Allow
+                Action:
                   - cloudformation:CreateStack
                   - cloudformation:UpdateStack
                   - cloudformation:DeleteStack
