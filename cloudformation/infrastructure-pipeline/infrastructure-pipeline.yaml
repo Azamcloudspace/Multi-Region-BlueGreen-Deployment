@@ -72,6 +72,7 @@ Resources:
                   - cloudformation:DeleteStack
                   - cloudformation:DescribeStacks
                   - cloudformation:DescribeStackEvents
+                  - cloudformation:CreateChangeSet
                 Resource: "*"
 
   DevBuildProject:
