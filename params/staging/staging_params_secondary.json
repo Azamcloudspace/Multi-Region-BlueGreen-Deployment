@@ -37,7 +37,7 @@
   },
   {
     "ParameterKey": "GitHubRepo",
-    "ParameterValue": "Multi-region-DR-deployment"
+    "ParameterValue": "Multi-Region-BlueGreen-Deployment"
   },
   {
     "ParameterKey": "GitHubOwner",
