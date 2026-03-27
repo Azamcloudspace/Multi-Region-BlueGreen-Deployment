@@ -9,6 +9,10 @@ phases:
     runtime-versions:
       python: 3.11
 
+  pre_build:
+    commands:
+      - ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text
+  
   build:
     commands:
       - echo "Uploading nested stack templates to S3..."
