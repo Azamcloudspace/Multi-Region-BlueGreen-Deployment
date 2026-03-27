@@ -79,6 +79,9 @@ Resources:
         Type: CODEPIPELINE
         BuildSpec: ci/dev-buildspec.yml
       TimeoutInMinutes: 10
+      LogsConfig:
+        CloudWatchLogs:
+          Status: ENABLED
 
   StagingBuildProject:
     Type: AWS::CodeBuild::Project
@@ -95,6 +98,9 @@ Resources:
         Type: CODEPIPELINE
         BuildSpec: ci/staging-buildspec.yml
       TimeoutInMinutes: 10
+      LogsConfig:
+        CloudWatchLogs:
+          Status: ENABLED
 
   ProdBuildProject:
     Type: AWS::CodeBuild::Project
@@ -111,6 +117,9 @@ Resources:
         Type: CODEPIPELINE
         BuildSpec: ci/prod-buildspec.yml
       TimeoutInMinutes: 10
+      LogsConfig:
+        CloudWatchLogs:
+          Status: ENABLED
 
   CodePipelineRole:
     Type: AWS::IAM::Role
