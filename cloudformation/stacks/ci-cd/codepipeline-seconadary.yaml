@@ -21,7 +21,7 @@ Parameters:
   TestBuildProject:
     Type: String
 
-  CodeDeployArn:
+  CodeDeployAppName:
     Type: String
 
   TestBuildArn: 
