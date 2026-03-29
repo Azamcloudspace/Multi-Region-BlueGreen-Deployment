@@ -114,7 +114,7 @@ Resources:
         GitHubOwner: !Ref GitHubOwner
         CodeStarConnectionArn: !Ref CodeStarConnectionArn
         TestBuildProject: !GetAtt CodeBuildStack.Outputs.TestBuildProjectName
-        CodeDeployArn: !GetAtt CodeDeployStack.Outputs.CodeDeployArn
+        CodeDeployAppName: !GetAtt CodeDeployStack.Outputs.CodeDeployApplication
         TestBuildArn: !GetAtt CodeBuildStack.Outputs.TestBuildArn
 
   SecondaryBucketStack:
