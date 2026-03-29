@@ -84,7 +84,7 @@ Resources:
       Source:
         Type: CODEPIPELINE
         BuildSpec: ci/dev-buildspec.yml
-      TimeoutInMinutes: 10
+      TimeoutInMinutes: 60
       LogsConfig:
         CloudWatchLogs:
           Status: ENABLED
@@ -103,7 +103,7 @@ Resources:
       Source:
         Type: CODEPIPELINE
         BuildSpec: ci/staging-buildspec.yml
-      TimeoutInMinutes: 10
+      TimeoutInMinutes: 60
       LogsConfig:
         CloudWatchLogs:
           Status: ENABLED
@@ -122,7 +122,7 @@ Resources:
       Source:
         Type: CODEPIPELINE
         BuildSpec: ci/prod-buildspec.yml
-      TimeoutInMinutes: 10
+      TimeoutInMinutes: 60
       LogsConfig:
         CloudWatchLogs:
           Status: ENABLED
