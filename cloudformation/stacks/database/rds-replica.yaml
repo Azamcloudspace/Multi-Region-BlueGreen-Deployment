@@ -17,9 +17,6 @@ Resources:
       PubliclyAccessible: false
       EnableCloudwatchLogsExports:
         - postgresql
-        - error
-        - slowquery
-        - general
       MonitoringInterval: 0
 
 Outputs:
