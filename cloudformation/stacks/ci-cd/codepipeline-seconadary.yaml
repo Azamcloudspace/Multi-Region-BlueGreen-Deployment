@@ -37,7 +37,7 @@ Resources:
   CodePipelineRole:
     Type: AWS::IAM::Role
     Properties:
-      RoleName: !Sub "${EnvironmentName}-codepipeline-role"
+      RoleName: !Sub "${EnvironmentName}-${AWS::Region}-codepipeline-role"
       AssumeRolePolicyDocument:
         Version: "2012-10-17"
         Statement:
