@@ -46,7 +46,7 @@ Resources:
               Service: codepipeline.amazonaws.com
             Action: sts:AssumeRole
       Policies:
-        - PolicyName: !Sub "${AWS::Region}-CodePipelinePolicy"
+        - PolicyName: !Sub "${EnvironmentName}-${AWS::Region}-CodePipelinePolicy"
           PolicyDocument:
             Version: "2012-10-17"
             Statement:
