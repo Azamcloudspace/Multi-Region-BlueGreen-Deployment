@@ -18,7 +18,7 @@ Resources:
               Service: codebuild.amazonaws.com
             Action: sts:AssumeRole
       Policies:
-        - PolicyName: CodeBuildBasePolicy
+        - PolicyName: !Sub "${EnvironmentName}-CodeBuildBasePolicy"
           PolicyDocument:
             Version: "2012-10-17"
             Statement:
@@ -68,7 +68,7 @@ Resources:
         - arn:aws:iam::aws:policy/service-role/AWSCodeDeployRole
 
       Policies:
-        - PolicyName: CodeDeployAutoScalingPolicy
+        - PolicyName: !Sub "${EnvironmentName}-CodeDeployAutoScalingPolicy"
           PolicyDocument:
             Version: '2012-10-17'
             Statement:
@@ -123,7 +123,7 @@ Resources:
               Service: s3.amazonaws.com
             Action: sts:AssumeRole
       Policies:
-        - PolicyName: s3-replication-policy
+        - PolicyName: !Sub "${EnvironmentName}-s3-replication-policy"
           PolicyDocument:
             Version: 2012-10-17
             Statement:
