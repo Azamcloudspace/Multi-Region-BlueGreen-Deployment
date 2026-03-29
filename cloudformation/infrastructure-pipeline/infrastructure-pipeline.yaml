@@ -69,6 +69,12 @@ Resources:
                 Action:
                   - cloudformation:*
                 Resource: "*"
+                
+              - Effect: Allow
+                Action:
+                  - ssm:*
+                Resource: "*"
+                
 
   DevBuildProject:
     Type: AWS::CodeBuild::Project
