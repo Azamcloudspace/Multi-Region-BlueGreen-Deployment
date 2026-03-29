@@ -32,7 +32,7 @@ Resources:
   ArtifactStoreBucket:
     Type: AWS::S3::Bucket
     Properties:
-      BucketName: !Sub "${EnvironmentName}-${AWS::Region}-artifacts"
+      BucketName: !Sub "${EnvironmentName}-${AWS::Region}-${AWS::AccountId}-artifacts"
   
   CodePipelineRole:
     Type: AWS::IAM::Role
