@@ -156,7 +156,7 @@ Resources:
               InputArtifacts:
                 - Name: SourceOutput
               Configuration:
-                ApplicationName: !Sub "${EnvironmentName}-CodeDeployApp"
+                ApplicationName: !Ref CodeDeployAppName
                 DeploymentGroupName: !Sub "${EnvironmentName}-dg"
 
       Tags:
