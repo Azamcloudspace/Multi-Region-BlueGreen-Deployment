@@ -21,7 +21,7 @@ Parameters:
   TestBuildProject:
     Type: String
 
-  CodeDeployArn:
+  CodeDeployAppName:
     Type: String
 
   TestBuildArn:
@@ -75,8 +75,8 @@ Resources:
                   - codedeploy:RegisterApplicationRevision
                   - codedeploy:GetDeploymentConfig
                 Resource: 
-                  - !Ref CodeDeployArn
-                  - !Sub "${CodeDeployArn}/*"
+                  - !Sub "arn:aws:codedeploy:${AWS::Region}:${AWS::AccountId}:application:${CodeDeployAppName}"
+                  - !Sub "arn:aws:codedeploy:${AWS::Region}:${AWS::AccountId}:deploymentgroup:${CodeDeployAppName}/*"
               - Effect: Allow
                 Action:
                   - logs:CreateLogGroup
