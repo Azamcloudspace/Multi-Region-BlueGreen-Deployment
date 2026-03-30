@@ -7,7 +7,8 @@ phases:
 
   build:
     commands:
-      - aws deploy create-deployment-group \
+      - |
+        aws deploy create-deployment-group \
           --application-name dev-CodeDeployApp \
           --deployment-group-name dev-dg \
           --service-role-arn arn:aws:iam::975050225555:role/dev-CodeDeployRole \
@@ -17,7 +18,8 @@ phases:
           --blue-green-deployment-configuration terminateBlueInstancesOnDeploymentSuccess={action=TERMINATE,terminationWaitTimeInMinutes=1},deploymentReadyOption={actionOnTimeout=CONTINUE_DEPLOYMENT},greenFleetProvisioningOption={action=COPY_AUTO_SCALING_GROUP} \
           --deployment-config-name CodeDeployDefault.AllAtOnce \
           --region us-east-1
-      - aws deploy create-deployment-group \
+      - |     
+        aws deploy create-deployment-group \
           --application-name dev-CodeDeployApp \
           --deployment-group-name dev-dg \
           --service-role-arn arn:aws:iam::975050225555:role/dev-CodeDeployRole \
