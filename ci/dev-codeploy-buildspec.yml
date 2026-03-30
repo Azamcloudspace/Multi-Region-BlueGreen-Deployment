@@ -15,7 +15,18 @@ phases:
           --auto-scaling-groups dev-app-asg \
           --load-balancer-info targetGroupInfoList=[{name=dev-tg-blue}] \
           --blue-green-deployment-configuration terminateBlueInstancesOnDeploymentSuccess={action=TERMINATE,terminationWaitTimeInMinutes=1},deploymentReadyOption={actionOnTimeout=CONTINUE_DEPLOYMENT},greenFleetProvisioningOption={action=COPY_AUTO_SCALING_GROUP} \
-          --deployment-config-name CodeDeployDefault.AllAtOnce
+          --deployment-config-name CodeDeployDefault.AllAtOnce \
+          --region us-east-1
+      - aws deploy create-deployment-group \
+          --application-name dev-CodeDeployApp \
+          --deployment-group-name dev-dg \
+          --service-role-arn arn:aws:iam::975050225555:role/dev-CodeDeployRole \
+          --deployment-style deploymentType=BLUE_GREEN,deploymentOption=WITH_TRAFFIC_CONTROL \
+          --auto-scaling-groups dev-app-asg \
+          --load-balancer-info targetGroupInfoList=[{name=dev-tg-blue}] \
+          --blue-green-deployment-configuration terminateBlueInstancesOnDeploymentSuccess={action=TERMINATE,terminationWaitTimeInMinutes=1},deploymentReadyOption={actionOnTimeout=CONTINUE_DEPLOYMENT},greenFleetProvisioningOption={action=COPY_AUTO_SCALING_GROUP} \
+          --deployment-config-name CodeDeployDefault.AllAtOnce \
+          --region us-west-1
 
 artifacts:
   files:
