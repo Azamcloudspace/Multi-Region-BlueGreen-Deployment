@@ -37,8 +37,8 @@ Resources:
                   - s3:PutObject
                   - s3:GetObjectVersion
                 Resource: 
-                  - !Sub "arn:aws:s3:::${EnvironmentName}-${AWS::Region}-artifacts"
-                  - !Sub "arn:aws:s3:::${EnvironmentName}-${AWS::Region}-artifacts/*"
+                  - !Sub "arn:aws:s3:::${EnvironmentName}-${AWS::Region}-${Account::Id}-artifacts"
+                  - !Sub "arn:aws:s3:::${EnvironmentName}-${AWS::Region}-${Account::Id}-artifacts/*"
                   
               - Effect: Allow
                 Action:
