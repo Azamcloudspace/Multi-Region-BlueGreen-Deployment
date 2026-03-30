@@ -1,0 +1,37 @@
+version: 0.0
+os: linux
+
+files:
+  - source: app/
+    destination: /var/www/html
+    overwrite: true
+
+permissions:
+  - object: /var/www/html
+    pattern: "**"
+    owner: root
+    group: root
+    mode: 644
+    type:
+      - file
+
+hooks:
+  BeforeInstall:
+    - location: app/scripts/backup_blue_script.sh
+      timeout: 60
+      runas: root
+  
+  AfterInstall:
+    - location: app/scripts/set_permissions_script.sh
+      timeout: 60
+      runas: root
+  
+  ApplicationStart:
+    - location: app/scripts/restart_server_script.sh
+      timeout: 60
+      runas: root
+  
+  ValidateService:
+    - location: app/scripts/validate_script.sh
+      timeout: 120
+      runas: root
