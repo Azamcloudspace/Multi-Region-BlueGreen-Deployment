@@ -1,0 +1,22 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      python: 3.11
+
+  build:
+    commands:
+      - aws deploy create-deployment-group \
+          --application-name staging-CodeDeployApp \
+          --deployment-group-name staging-dg \
+          --service-role-arn arn:aws:iam::975050225555:role/staging-CodeDeployRole \
+          --deployment-style deploymentType=BLUE_GREEN,deploymentOption=WITH_TRAFFIC_CONTROL \
+          --auto-scaling-groups staging-app-asg \
+          --load-balancer-info targetGroupInfoList=[{name=staging-tg-blue}] \
+          --blue-green-deployment-configuration terminateBlueInstancesOnDeploymentSuccess={action=TERMINATE,terminationWaitTimeInMinutes=1},deploymentReadyOption={actionOnTimeout=CONTINUE_DEPLOYMENT},greenFleetProvisioningOption={action=COPY_AUTO_SCALING_GROUP} \
+          --deployment-config-name CodeDeployDefault.AllAtOnce
+
+artifacts:
+  files:
+    - '**/*'
