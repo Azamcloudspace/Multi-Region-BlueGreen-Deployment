@@ -82,7 +82,7 @@ Resources:
         Type: LINUX_CONTAINER
       Source:
         Type: CODEPIPELINE
-        BuildSpec: ci/dev-codedeploy-buildspec.yml
+        BuildSpec: ci/dev-codeploy-buildspec.yml
       TimeoutInMinutes: 60
       LogsConfig:
         CloudWatchLogs:
@@ -101,7 +101,7 @@ Resources:
         Type: LINUX_CONTAINER
       Source:
         Type: CODEPIPELINE
-        BuildSpec: ci/staging-codedeploy-buildspec.yml
+        BuildSpec: ci/staging-codeploy-buildspec.yml
       TimeoutInMinutes: 60
       LogsConfig:
         CloudWatchLogs:
@@ -120,7 +120,7 @@ Resources:
         Type: LINUX_CONTAINER
       Source:
         Type: CODEPIPELINE
-        BuildSpec: ci/prod-codedeploy-buildspec.yml
+        BuildSpec: ci/prod-codeploy-buildspec.yml
       TimeoutInMinutes: 60
       LogsConfig:
         CloudWatchLogs:
