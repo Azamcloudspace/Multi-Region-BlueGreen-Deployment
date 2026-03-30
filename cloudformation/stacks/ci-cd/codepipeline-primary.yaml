@@ -18,14 +18,9 @@ Parameters:
   CodeStarConnectionArn:
     Type: String
 
-  TestBuildProject:
-    Type: String
-
   CodeDeployAppName:
     Type: String
 
-  TestBuildArn:
-    Type: String
 
 Resources:
 
@@ -84,16 +79,6 @@ Resources:
                   - logs:PutLogEvents
                 Resource: "*"
 
-              - Effect: Allow
-                Action:
-                  - codebuild:StartBuild
-                  - codebuild:BatchGetBuilds
-                  - codebuild:StopBuild
-                Resource: 
-                  - !Ref TestBuildArn
-                  - !Sub "${TestBuildArn}/*"
-                  
-
   Pipeline:
     Type: AWS::CodePipeline::Pipeline
     Properties:
@@ -129,22 +114,6 @@ Resources:
                 Provider: Manual
                 Version: '1'
         
-
-        - Name: Test
-          Actions:
-            - Name: RunTests
-              ActionTypeId:
-                Category: Build
-                Owner: AWS
-                Provider: CodeBuild
-                Version: "1"
-              InputArtifacts:
-                - Name: SourceOutput
-              OutputArtifacts:
-                - Name: TestOutput
-              Configuration:
-                ProjectName: !Ref TestBuildProject
-
         - Name: Deploy
           Actions:
             - Name: CodeDeploy
