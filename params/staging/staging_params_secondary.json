@@ -69,7 +69,7 @@
   },
   {
     "ParameterKey": "HostedZoneName",
-    "ParameterValue": "azamcloudspace.click"
+    "ParameterValue": "staging.azamcloudspace.click"
   },
   {
     "ParameterKey": "SourceDBArn",
