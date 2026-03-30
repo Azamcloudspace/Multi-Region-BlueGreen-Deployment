@@ -10,7 +10,7 @@ phases:
       - |
         aws deploy create-deployment-group \
           --application-name staging-CodeDeployApp \
-          --deployment-group-name staging-dg-east \
+          --deployment-group-name staging-dg \
           --service-role-arn arn:aws:iam::975050225555:role/staging-CodeDeployRole \
           --deployment-style deploymentType=BLUE_GREEN,deploymentOption=WITH_TRAFFIC_CONTROL \
           --auto-scaling-groups staging-app-asg \
@@ -22,7 +22,7 @@ phases:
       - |
         aws deploy create-deployment-group \
           --application-name staging-CodeDeployApp \
-          --deployment-group-name staging-dg-west \
+          --deployment-group-name staging-dg \
           --service-role-arn arn:aws:iam::975050225555:role/staging-CodeDeployRole \
           --deployment-style deploymentType=BLUE_GREEN,deploymentOption=WITH_TRAFFIC_CONTROL \
           --auto-scaling-groups staging-app-asg \
