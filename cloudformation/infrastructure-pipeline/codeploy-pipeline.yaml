@@ -25,7 +25,7 @@ Resources:
   CodeBuildRole:
     Type: AWS::IAM::Role
     Properties:
-      RoleName: CodeBuildServiceRole
+      RoleName: CodebuildCodedeployRole
       AssumeRolePolicyDocument:
         Version: "2012-10-17"
         Statement:
@@ -129,7 +129,7 @@ Resources:
   CodePipelineRole:
     Type: AWS::IAM::Role
     Properties:
-      RoleName: Infrastructure-codepipeline-role
+      RoleName: codedeploy-codepipeline-role
       AssumeRolePolicyDocument:
         Version: "2012-10-17"
         Statement:
