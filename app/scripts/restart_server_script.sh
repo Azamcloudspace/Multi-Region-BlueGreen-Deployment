@@ -1,24 +1,19 @@
 #!/bin/bash
-# Restart Apache for GREEN deployment
-
 set -e
 
 echo "=== Restarting web server for GREEN deployment ==="
 
-# Ensure httpd is installed
+# Install httpd if missing
 if ! command -v httpd >/dev/null 2>&1; then
-    echo "ERROR: httpd is not installed"
-    exit 1
+    echo "httpd not found. Installing..."
+    yum install -y httpd
 fi
 
-# Restart httpd cleanly
-echo "Restarting httpd..."
+# Start and enable httpd
+systemctl enable httpd
 systemctl restart httpd
 
-# Enable it (in case it wasn't)
-systemctl enable httpd
-
-# Verify it is running
+# Verify
 STATUS=$(systemctl is-active httpd)
 
 if [ "$STATUS" != "active" ]; then
