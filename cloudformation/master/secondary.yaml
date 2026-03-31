@@ -97,6 +97,14 @@ Resources:
       Parameters:
         EnvironmentName: !Ref EnvironmentName
 
+  CodeBuildStack:
+    Type: AWS::CloudFormation::Stack
+    DependsOn: RolesStack
+    Properties:
+      TemplateURL: https://iac-bucket-azamcloud.s3.us-east-1.amazonaws.com/ci-cd/codebuild.yaml
+      Parameters:
+        EnvironmentName: !Ref EnvironmentName
+        
   CodepipelineStackSecondary:
     Type: AWS::CloudFormation::Stack
     Properties:
@@ -107,6 +115,8 @@ Resources:
         GitHubOwner: !Ref GitHubOwner
         CodeStarConnectionArn: !Ref CodeStarConnectionArn
         CodeDeployAppName: !GetAtt CodeDeployStack.Outputs.CodeDeployApplication
+        CodeBuildProject: !GetAtt CodeBuildStack.Outputs.CodeBuildProjectName
+        CodeBuildArn: !GetAtt CodeBuildStack.Outputs.CodeBuildArn
 
   SecondaryBucketStack:
     Type: AWS::CloudFormation::Stack
