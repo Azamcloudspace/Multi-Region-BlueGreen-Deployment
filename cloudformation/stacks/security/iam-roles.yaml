@@ -6,10 +6,10 @@ Parameters:
 
 Resources:
   
-  TestBuildRole:
+  CodeBuildRole:
     Type: AWS::IAM::Role
     Properties:
-      RoleName: !Sub "${EnvironmentName}-test-build-role"
+      RoleName: !Sub "${EnvironmentName}-codebuild-role"
       AssumeRolePolicyDocument:
         Version: "2012-10-17"
         Statement:
@@ -48,8 +48,8 @@ Resources:
                   - codebuild:BatchPutTestCases
                   - codebuild:BatchPutCodeCoverages
                 Resource:
-                  - !Sub "arn:aws:codebuild:us-east-1:975050225555:project/${EnvironmentName}-tests"
-                  - !Sub "arn:aws:codebuild:us-west-1:975050225555:project/${EnvironmentName}-tests"
+                  - !Sub "arn:aws:codebuild:us-east-1:975050225555:project/${EnvironmentName}-AppBuildProject"
+                  - !Sub "arn:aws:codebuild:us-west-1:975050225555:project/${EnvironmentName}-AppBuildProject"
 
   CodeDeployServiceRole:
     Type: AWS::IAM::Role
@@ -146,8 +146,8 @@ Resources:
                 Resource: !Sub "arn:aws:s3:::${EnvironmentName}-secondary-dr-bucket-us-west-1/*"
                 
 Outputs: 
-  TestBuildRoleArn:
-    Value: !GetAtt TestBuildRole.Arn
+  CodeBuildRoleArn:
+    Value: !GetAtt CodeBuildRole.Arn
   
   CodeDeployServiceRoleArn:
     Value: !GetAtt CodeDeployServiceRole.Arn
