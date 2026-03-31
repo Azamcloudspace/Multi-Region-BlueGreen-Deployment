@@ -1,0 +1,16 @@
+version: 0.2
+
+phases:
+  build:
+    commands:
+      - rm -rf build-output
+      - mkdir build-output
+
+      - cp -r app build-output/
+
+      - cp ci/appspec.yml build-output/appspec.yml
+
+artifacts:
+  base-directory: build-output
+  files:
+    - '**/*'
