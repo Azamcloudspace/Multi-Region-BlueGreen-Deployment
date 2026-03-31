@@ -24,6 +24,28 @@ Parameters:
 
 Resources:
 
+  PrimaryHealthCheck:
+    Type: AWS::Route53::HealthCheck
+    Properties:
+      HealthCheckConfig:
+        Type: HTTP
+        FullyQualifiedDomainName: !Ref PrimaryALBDNS
+        Port: 80
+        ResourcePath: /
+        RequestInterval: 30
+        FailureThreshold: 3
+
+  SecondaryHealthCheck:
+    Type: AWS::Route53::HealthCheck
+    Properties:
+      HealthCheckConfig:
+        Type: HTTP
+        FullyQualifiedDomainName: !Ref SecondaryALBDNS
+        Port: 80
+        ResourcePath: /
+        RequestInterval: 30
+        FailureThreshold: 3
+
   PrimaryRecord:
     Type: AWS::Route53::RecordSet
     Properties:
@@ -32,6 +54,7 @@ Resources:
       Type: A
       SetIdentifier: primary
       Failover: PRIMARY
+      HealthCheckId: !Ref PrimaryHealthCheck
       AliasTarget:
         DNSName: !Ref PrimaryALBDNS
         HostedZoneId: !Ref PrimaryALBZoneId
@@ -45,6 +68,7 @@ Resources:
       Type: A
       SetIdentifier: secondary
       Failover: SECONDARY
+      HealthCheckId: !Ref SecondaryHealthCheck
       AliasTarget:
         DNSName: !Ref SecondaryALBDNS
         HostedZoneId: !Ref SecondaryALBZoneId
@@ -56,5 +80,3 @@ Outputs:
 
   SecondaryRecord:
     Value: !Ref SecondaryRecord
-
-
