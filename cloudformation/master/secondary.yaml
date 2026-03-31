@@ -116,7 +116,7 @@ Resources:
         CodeStarConnectionArn: !Ref CodeStarConnectionArn
         CodeDeployAppName: !GetAtt CodeDeployStack.Outputs.CodeDeployApplication
         CodeBuildProject: !GetAtt CodeBuildStack.Outputs.CodeBuildProjectName
-        CodeBuildArn: !GetAtt CodeBuildStack.Outputs.CodeBuildArn
+        CodeBuildArn: !GetAtt CodeBuildStack.Outputs.CodeBuildProjectArn
 
   SecondaryBucketStack:
     Type: AWS::CloudFormation::Stack
