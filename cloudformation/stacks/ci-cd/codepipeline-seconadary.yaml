@@ -83,9 +83,7 @@ Resources:
                   - codedeploy:GetDeploymentGroup
                   - codedeploy:RegisterApplicationRevision
                   - codedeploy:GetDeploymentConfig
-                Resource: 
-                  - !Sub "arn:aws:codedeploy:${AWS::Region}:${AWS::AccountId}:application:${CodeDeployAppName}"
-                  - !Sub "arn:aws:codedeploy:${AWS::Region}:${AWS::AccountId}:deploymentgroup:${CodeDeployAppName}/*"
+                Resource: "*"
               - Effect: Allow
                 Action:
                   - logs:CreateLogGroup
