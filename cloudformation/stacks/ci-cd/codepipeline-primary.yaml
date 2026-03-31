@@ -120,9 +120,9 @@ Resources:
               OutputArtifacts:
                 - Name: SourceOutput
 
-        - Name: Approval
+        - Name: BuildApproval
           Actions:
-            - Name: ManualApproval
+            - Name: BuildApproval
               ActionTypeId:
                 Category: Approval
                 Owner: AWS
@@ -144,9 +144,9 @@ Resources:
               Configuration:
                 ProjectName: !Ref CodeBuildProject
 
-        - Name: Approval
+        - Name: DeployApproval
           Actions:
-            - Name: ManualApproval
+            - Name: DeployApproval
               ActionTypeId:
                 Category: Approval
                 Owner: AWS
