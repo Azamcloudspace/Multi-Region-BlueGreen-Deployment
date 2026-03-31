@@ -71,22 +71,58 @@ Resources:
           Arn: !GetAtt InstanceProfile.Arn
         UserData: !Base64 |
           #!/bin/bash
-          set -e
+          set -xe
+
+          # System update
           yum update -y
-          yum install -y aws-cli httpd amazon-cloudwatch-agent
-          yum install -y ruby
+
+          # Install dependencies
+          yum install -y aws-cli httpd ruby wget amazon-cloudwatch-agent
+
+          # Start web server
           mkdir -p /var/www/html
           echo "<h1>App Running</h1>" > /var/www/html/index.html
           systemctl enable httpd
           systemctl start httpd
-          REGION=$(curl -s http://169.254.169.254/latest/meta-data/placement/region)
-          if [ -f /etc/os-release ] && grep -q "Amazon Linux" /etc/os-release; then
-            wget https://aws-codedeploy-${REGION}.s3.${REGION}.amazonaws.com/latest/install -O /tmp/install
-            chmod +x /tmp/install
-            /tmp/install auto
-          fi
+
+          # Get region (IMDSv2 compliant)
+          TOKEN=$(curl -X PUT "http://169.254.169.254/latest/api/token" \
+            -H "X-aws-ec2-metadata-token-ttl-seconds: 21600")
+
+          REGION=$(curl -H "X-aws-ec2-metadata-token: $TOKEN" \
+            -s http://169.254.169.254/latest/meta-data/placement/region)
+
+          # Install CodeDeploy Agent with retry
+          cd /tmp
+          for i in {1..5}; do
+            wget https://aws-codedeploy-${REGION}.s3.${REGION}.amazonaws.com/latest/install -O install && break
+            sleep 5
+          done
+
+          chmod +x install
+          ./install auto
+
+          # Force agent to always restart if it crashes
+          mkdir -p /etc/systemd/system/codedeploy-agent.service.d
+
+          cat <<EOF > /etc/systemd/system/codedeploy-agent.service.d/override.conf
+          [Service]
+          Restart=always
+          RestartSec=10
+          EOF
+
+          systemctl daemon-reexec
+          systemctl daemon-reload
+
+          # Enable and start agent
           systemctl enable codedeploy-agent
-          systemctl start codedeploy-agent
+          systemctl restart codedeploy-agent
+
+          # Verify agent is running
+          sleep 10
+          systemctl status codedeploy-agent || systemctl restart codedeploy-agent
+
+          # Start CloudWatch agent
           /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl \
               -a fetch-config \
               -m ec2 \
@@ -126,21 +162,3 @@ Outputs:
 
   TargetGroupBlue:
     Value: !Ref TargetGroupBlue
-
-
-
-
-
-
-
- 
-
-
-
-
-
-
-
-
-
-
