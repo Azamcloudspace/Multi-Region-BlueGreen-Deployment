@@ -8,7 +8,7 @@ Resources:
   CodeDeployApplication:
     Type: AWS::CodeDeploy::Application
     Properties:
-      ApplicationName: !Sub "${EnvironmentName}-${AWS::Region}-CodeDeployApp"
+      ApplicationName: !Sub "${EnvironmentName}-CodeDeployApp"
       ComputePlatform: Server
 
 Outputs:
