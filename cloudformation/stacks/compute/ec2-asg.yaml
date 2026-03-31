@@ -50,18 +50,7 @@ Resources:
   TargetGroupBlue:
     Type: AWS::ElasticLoadBalancingV2::TargetGroup
     Properties:
-      Name: !Sub "${EnvironmentName}-tg-blue"
-      Port: 80
-      Protocol: HTTP
-      VpcId: !Ref VpcId
-      HealthCheckPath: /
-      HealthCheckProtocol: HTTP
-      HealthCheckPort: traffic-port
-
-  TargetGroupGreen:
-    Type: AWS::ElasticLoadBalancingV2::TargetGroup
-    Properties:
-      Name: !Sub "${EnvironmentName}-tg-green"
+      Name: !Sub "${EnvironmentName}-${AWS::Region}-tg-blue"
       Port: 80
       Protocol: HTTP
       VpcId: !Ref VpcId
@@ -72,7 +61,7 @@ Resources:
   LaunchTemplate:
     Type: AWS::EC2::LaunchTemplate
     Properties:
-      LaunchTemplateName: !Sub "${EnvironmentName}-App-lt"
+      LaunchTemplateName: !Sub "${EnvironmentName}-${AWS-Region}-App-lt"
       LaunchTemplateData:
         ImageId: !Ref InstanceAmiId
         InstanceType: !Ref InstanceType
@@ -107,7 +96,7 @@ Resources:
   AutoScalingGroup:
     Type: AWS::AutoScaling::AutoScalingGroup
     Properties:
-      AutoScalingGroupName: !Sub "${EnvironmentName}-app-asg"
+      AutoScalingGroupName: !Sub "${EnvironmentName}-${AWS::Region}-app-asg"
       VPCZoneIdentifier:
         - !Ref PrivateSubnet1
         - !Ref PrivateSubnet2
