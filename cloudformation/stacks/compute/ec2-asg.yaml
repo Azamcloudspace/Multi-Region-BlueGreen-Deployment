@@ -28,7 +28,7 @@ Resources:
   AppSecurityGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
-      GroupName: !Sub "{EnvironmentName}-AppSecGroup"
+      GroupName: !Sub "${EnvironmentName}-AppSecGroup"
       GroupDescription: Allow http access ALB Only
       VpcId: !Ref VpcId
       SecurityGroupIngress:
