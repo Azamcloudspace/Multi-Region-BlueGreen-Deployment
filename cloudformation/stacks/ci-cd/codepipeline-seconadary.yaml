@@ -21,6 +21,12 @@ Parameters:
   CodeDeployAppName:
     Type: String
 
+  CodeBuildProject:
+    Type: String
+
+  CodeBuildArn:
+    Type: String
+
 Resources:
 
   ArtifactStoreBucket:
@@ -58,6 +64,15 @@ Resources:
                 Action:
                   - codestar-connections:UseConnection
                 Resource: !Ref CodeStarConnectionArn
+
+              - Effect: Allow
+                Action:
+                  - codebuild:StartBuild
+                  - codebuild:BatchGetBuilds
+                  - codebuild:StopBuild
+                Resource: 
+                  - !Ref CodeBuildArn
+                  - !Sub "${CodeBuildArn}/*"
 
               - Effect: Allow
                 Action:
@@ -104,15 +119,39 @@ Resources:
               OutputArtifacts:
                 - Name: SourceOutput
 
-        - Name: Approval
+        - Name: BuildApproval
           Actions:
-            - Name: ManualApproval
+            - Name: BuildApproval
               ActionTypeId:
                 Category: Approval
                 Owner: AWS
                 Provider: Manual
                 Version: '1'
 
+        - Name: Build
+          Actions:
+            - Name: CodeBuild
+              ActionTypeId:
+                Category: Build
+                Owner: AWS
+                Provider: CodeBuild
+                Version: "1"
+              InputArtifacts:
+                - Name: SourceOutput
+              OutputArtifacts:
+                - Name: BuildOutput
+              Configuration:
+                ProjectName: !Ref CodeBuildProject
+
+        - Name: ProdApproval
+          Actions:
+            - Name: ProdApproval
+              ActionTypeId:
+                Category: Approval
+                Owner: AWS
+                Provider: Manual
+                Version: '1'
+                
         - Name: Deploy
           Actions:
             - Name: CodeDeploy
@@ -122,7 +161,7 @@ Resources:
                 Provider: CodeDeploy
                 Version: "1"
               InputArtifacts:
-                - Name: SourceOutput
+                - Name: BuildOutput
               Configuration:
                 ApplicationName: !Ref CodeDeployAppName
                 DeploymentGroupName: !Sub "${EnvironmentName}-dg"
