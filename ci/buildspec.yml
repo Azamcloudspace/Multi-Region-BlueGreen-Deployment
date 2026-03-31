@@ -10,6 +10,8 @@ phases:
 
       - cp ci/appspec.yml build-output/appspec.yml
 
+      - ls -R build-output
+
 artifacts:
   base-directory: build-output
   files:
