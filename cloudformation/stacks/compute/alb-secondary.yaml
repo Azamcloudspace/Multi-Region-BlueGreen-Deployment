@@ -51,7 +51,7 @@ Resources:
   ALBSecondary:
     Type: AWS::ElasticLoadBalancingV2::LoadBalancer
     Properties:
-      Name: !Sub "${EnvironmentName}-alb"
+      Name: !Sub "${EnvironmentName}-${AWS::Region}-alb"
       Scheme: internet-facing
       Subnets:
         - !Ref PublicSubnet1
