@@ -19,7 +19,7 @@ Resources:
         Type: LINUX_CONTAINER
       Source:
         Type: CODEPIPELINE
-        BuildSpec: buildspec-test.yml
+        BuildSpec: ci/buildspec.yml
       TimeoutInMinutes: 10
       Tags:
         - Key: Environment
