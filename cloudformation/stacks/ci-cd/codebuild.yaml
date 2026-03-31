@@ -9,7 +9,7 @@ Resources:
   CodeBuildProject:
     Type: AWS::CodeBuild::Project
     Properties:
-      Name: !Sub "${EnvironmentName}-AppBuildProject"
+      Name: !Sub "${EnvironmentName}-${AWS::Region}-AppBuildProject"
       ServiceRole: !Sub "${EnvironmentName}-codebuild-role"
       Artifacts:
         Type: CODEPIPELINE
