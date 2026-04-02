@@ -5,13 +5,17 @@ phases:
     runtime-versions:
       python: 3.11
 
+  pre_build:
+    commands:
+      - ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)
+
   build:
     commands:
       - |
         aws deploy create-deployment-group \
           --application-name staging-CodeDeployApp \
           --deployment-group-name staging-dg \
-          --service-role-arn arn:aws:iam::975050225555:role/staging-CodeDeployRole \
+          --service-role-arn arn:aws:iam::$ACCOUNT_ID:role/staging-CodeDeployRole \
           --deployment-style deploymentType=BLUE_GREEN,deploymentOption=WITH_TRAFFIC_CONTROL \
           --auto-scaling-groups staging-app-asg \
           --load-balancer-info targetGroupInfoList=[{name=staging-tg-blue}] \
@@ -23,7 +27,7 @@ phases:
         aws deploy create-deployment-group \
           --application-name staging-CodeDeployApp \
           --deployment-group-name staging-dg \
-          --service-role-arn arn:aws:iam::975050225555:role/staging-CodeDeployRole \
+          --service-role-arn arn:aws:iam::$ACCOUNT_ID:role/staging-CodeDeployRole \
           --deployment-style deploymentType=BLUE_GREEN,deploymentOption=WITH_TRAFFIC_CONTROL \
           --auto-scaling-groups staging-app-asg \
           --load-balancer-info targetGroupInfoList=[{name=staging-tg-blue}] \
