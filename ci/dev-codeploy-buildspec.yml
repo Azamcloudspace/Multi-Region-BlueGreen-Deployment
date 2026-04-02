@@ -5,13 +5,17 @@ phases:
     runtime-versions:
       python: 3.11
 
+  pre_build:
+    commands:
+      - ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)
+
   build:
     commands:
       - |
         aws deploy create-deployment-group \
           --application-name dev-CodeDeployApp \
           --deployment-group-name dev-dg \
-          --service-role-arn arn:aws:iam::975050225555:role/dev-CodeDeployRole \
+          --service-role-arn arn:aws:iam::$ACCOUNT_ID:role/dev-CodeDeployRole \
           --deployment-style deploymentType=BLUE_GREEN,deploymentOption=WITH_TRAFFIC_CONTROL \
           --auto-scaling-groups dev-app-asg \
           --load-balancer-info targetGroupInfoList=[{name=dev-tg-blue}] \
@@ -22,7 +26,7 @@ phases:
         aws deploy create-deployment-group \
           --application-name dev-CodeDeployApp \
           --deployment-group-name dev-dg \
-          --service-role-arn arn:aws:iam::975050225555:role/dev-CodeDeployRole \
+          --service-role-arn arn:aws:iam::$ACCOUNT_ID:role/dev-CodeDeployRole \
           --deployment-style deploymentType=BLUE_GREEN,deploymentOption=WITH_TRAFFIC_CONTROL \
           --auto-scaling-groups dev-app-asg \
           --load-balancer-info targetGroupInfoList=[{name=dev-tg-blue}] \
