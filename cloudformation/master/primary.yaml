@@ -129,7 +129,6 @@ Resources:
 
   CodeDeployStack:
     Type: AWS::CloudFormation::Stack
-    DependsOn: RolesStack
     Properties:
       TemplateURL: https://iac-bucket-azamcloud.s3.us-east-1.amazonaws.com/ci-cd/codedeploy.yaml
       Parameters:
