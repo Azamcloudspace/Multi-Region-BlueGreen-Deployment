@@ -25,6 +25,18 @@ Parameters:
 
 Resources:
 
+  ServerLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: server-logs
+      RetentionInDays: 7
+      
+  HttpdLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: httpd-logs
+      RetentionInDays: 7
+
   AppSecurityGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
