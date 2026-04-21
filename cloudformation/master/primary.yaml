@@ -85,7 +85,6 @@ Resources:
 
   ComputeStack:
     Type: AWS::CloudFormation::Stack
-    DependsOn: SsmStack
     DependsOn: RolesStack
     Properties:
       TemplateURL: https://iac-bucket-azamcloud.s3.us-east-1.amazonaws.com/compute/ec2-asg.yaml
@@ -182,12 +181,6 @@ Resources:
       Parameters:
         EnvironmentName: !Ref EnvironmentName
 
-  SsmStack:
-    Type: AWS::CloudFormation::Stack
-    Properties:
-      TemplateURL: https://iac-bucket-azamcloud.s3.us-east-1.amazonaws.com/ssm/ssm.yaml
-      Parameters:
-        EnvironmentName: !Ref EnvironmentName
  
 
 
