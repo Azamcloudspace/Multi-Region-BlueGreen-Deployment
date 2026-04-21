@@ -177,7 +177,6 @@ Resources:
 
   PrimaryBucketStack:
     Type: AWS::CloudFormation::Stack
-    DependsOn: RolesStack
     Properties:
       TemplateURL: https://iac-bucket-azamcloud.s3.us-east-1.amazonaws.com/storage/s3-primary.yaml
       Parameters:
