@@ -40,7 +40,7 @@ Resources:
               - s3:ReplicateTags
               - s3:GetObjectVersionTagging
               - s3:ObjectOwnerOverrideToBucketOwner
-            Resource: !Sub "arn:aws:s3:::${EnvironmentName}-secondary-dr-bucket-${AWS::Region}/*"
+            Resource: !Sub "arn:aws:s3:::${EnvironmentName}-secondary-dr-bcket-${AWS::Region}/*"
 
 Outputs:
   SecondaryBucketName:
