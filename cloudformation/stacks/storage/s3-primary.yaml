@@ -8,7 +8,7 @@ Resources:
   PrimaryBucket:
     Type: AWS::S3::Bucket
     Properties:
-      BucketName: !Sub "${EnvironmentName}-primary-dr-bucket-${AWS::Region}"
+      BucketName: !Sub "${EnvironmentName}-primary-dr-bcket-${AWS::Region}"
       VersioningConfiguration:
         Status: Enabled
       PublicAccessBlockConfiguration:
