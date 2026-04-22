@@ -8,7 +8,7 @@ Resources:
   SecondaryBucket:
     Type: AWS::S3::Bucket
     Properties:
-      BucketName: !Sub "${EnvironmentName}-secondary-dr-bucket-${AWS::Region}"
+      BucketName: !Sub "${EnvironmentName}-secondary-dr-bcket-${AWS::Region}"
       VersioningConfiguration:
         Status: Enabled
       PublicAccessBlockConfiguration:
