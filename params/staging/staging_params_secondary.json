@@ -45,7 +45,7 @@
   },
   {
     "ParameterKey": "CodeStarConnectionArn",
-    "ParameterValue": "arn:aws:codeconnections:us-east-1:975050225555:connection/b764abe8-bf03-4f0f-bfd5-d00aaa612924"
+    "ParameterValue": "arn:aws:codeconnections:us-east-1:760773573647:connection/f854fc5d-d8e1-464b-a82c-f733c7c8d9e0"
   },
   {
     "ParameterKey": "PrimaryALBZoneId",
