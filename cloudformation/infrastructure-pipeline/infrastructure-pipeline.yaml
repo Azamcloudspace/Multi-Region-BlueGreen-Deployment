@@ -50,8 +50,8 @@ Resources:
                 Resource:
                   - !Sub "arn:aws:s3:::${ArtifactStoreBucket}"
                   - !Sub "arn:aws:s3:::${ArtifactStoreBucket}/*"
-                  - arn:aws:s3:::iac-bucket-azamcloud
-                  - arn:aws:s3:::iac-bucket-azamcloud/*
+                  - arn:aws:s3:::iac-bucket-azamclouds
+                  - arn:aws:s3:::iac-bucket-azamclouds/*
 
               - Effect: Allow
                 Action:
