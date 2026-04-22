@@ -65,11 +65,11 @@
   },
   {
     "ParameterKey": "HostedZoneId",
-    "ParameterValue": "Z0040497NT0F8RUQMJK"
+    "ParameterValue": "Z04857351NU0G97GGV2PN"
   },
   {
     "ParameterKey": "HostedZoneName",
-    "ParameterValue": "staging.azamcloudspace.click"
+    "ParameterValue": "staging.azamcloud.click"
   },
   {
     "ParameterKey": "SourceDBArn",
