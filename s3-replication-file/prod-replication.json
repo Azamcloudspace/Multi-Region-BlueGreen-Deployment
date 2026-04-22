@@ -6,7 +6,7 @@
       "Priority": 1,
       "Filter": {},
       "Destination": {
-        "Bucket": "arn:aws:s3:::prod-secondary-dr-bucket-us-west-1",
+        "Bucket": "arn:aws:s3:::prod-secondary-dr-bcket-us-west-1",
         "ReplicationTime": {
           "Status": "Enabled",
           "Time": {
