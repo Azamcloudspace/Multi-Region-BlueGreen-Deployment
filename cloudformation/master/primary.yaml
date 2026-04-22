@@ -67,7 +67,7 @@ Resources:
   RolesStack:
     Type: AWS::CloudFormation::Stack
     Properties:
-      TemplateURL: https://iac-bucket-azamclouds.s3.us-east-1.amazonaws.com/security/iam-roles.yaml
+      TemplateURL: https://iac-bucket-azamclouds.s3.eu-central-1.amazonaws.com/security/iam-roles.yaml
       Parameters:
         EnvironmentName: !Ref EnvironmentName
   
