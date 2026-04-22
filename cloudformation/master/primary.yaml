@@ -74,7 +74,7 @@ Resources:
   NetworkStack:
     Type: AWS::CloudFormation::Stack
     Properties:
-      TemplateURL: https://iac-bucket-azamclouds.s3.us-east-1.amazonaws.com/network/vpc.yaml
+      TemplateURL: https://iac-bucket-azamclouds.s3.eu-central-1.amazonaws.com/network/vpc.yaml
       Parameters:
         EnvironmentName: !Ref EnvironmentName
         VpcCidr: !Ref VpcCidr
@@ -87,7 +87,7 @@ Resources:
     Type: AWS::CloudFormation::Stack
     DependsOn: RolesStack
     Properties:
-      TemplateURL: https://iac-bucket-azamclouds.s3.us-east-1.amazonaws.com/compute/ec2-asg.yaml
+      TemplateURL: https://iac-bucket-azamclouds.s3.eu-central-1.amazonaws.com/compute/ec2-asg.yaml
       Parameters:
         EnvironmentName: !Ref EnvironmentName
         InstanceAmiId: !Ref InstanceAmiId
@@ -101,7 +101,7 @@ Resources:
   ALBStackPrimary:
     Type: AWS::CloudFormation::Stack
     Properties:
-      TemplateURL: https://iac-bucket-azamclouds.s3.us-east-1.amazonaws.com/compute/alb-primary.yaml
+      TemplateURL: https://iac-bucket-azamclouds.s3.eu-central-1.amazonaws.com/compute/alb-primary.yaml
       Parameters:
         EnvironmentName: !Ref EnvironmentName
         VpcId: !GetAtt NetworkStack.Outputs.VpcId
@@ -113,7 +113,7 @@ Resources:
   DatabaseStackPrimary:
     Type: AWS::CloudFormation::Stack
     Properties:
-      TemplateURL: https://iac-bucket-azamclouds.s3.us-east-1.amazonaws.com/database/rds.yaml
+      TemplateURL: https://iac-bucket-azamclouds.s3.eu-central-1.amazonaws.com/database/rds.yaml
       Parameters:
         EnvironmentName: !Ref EnvironmentName
         VpcId: !GetAtt NetworkStack.Outputs.VpcId
@@ -129,7 +129,7 @@ Resources:
   CodeDeployStack:
     Type: AWS::CloudFormation::Stack
     Properties:
-      TemplateURL: https://iac-bucket-azamclouds.s3.us-east-1.amazonaws.com/ci-cd/codedeploy.yaml
+      TemplateURL: https://iac-bucket-azamclouds.s3.eu-central-1.amazonaws.com/ci-cd/codedeploy.yaml
       Parameters:
         EnvironmentName: !Ref EnvironmentName
         
@@ -137,14 +137,14 @@ Resources:
     Type: AWS::CloudFormation::Stack
     DependsOn: RolesStack
     Properties:
-      TemplateURL: https://iac-bucket-azamclouds.s3.us-east-1.amazonaws.com/ci-cd/codebuild.yaml
+      TemplateURL: https://iac-bucket-azamclouds.s3.eu-central-1.amazonaws.com/ci-cd/codebuild.yaml
       Parameters:
         EnvironmentName: !Ref EnvironmentName
   
   CodepipelineStackPrimary:
     Type: AWS::CloudFormation::Stack
     Properties:
-      TemplateURL: https://iac-bucket-azamclouds.s3.us-east-1.amazonaws.com/ci-cd/codepipeline-primary.yaml
+      TemplateURL: https://iac-bucket-azamclouds.s3.eu-central-1.amazonaws.com/ci-cd/codepipeline-primary.yaml
       Parameters:
         EnvironmentName: !Ref EnvironmentName
         GitHubRepo: !Ref GitHubRepo
@@ -157,7 +157,7 @@ Resources:
   SnsStack:
     Type: AWS::CloudFormation::Stack
     Properties:
-      TemplateURL: https://iac-bucket-azamclouds.s3.us-east-1.amazonaws.com/monitoring/sns.yaml
+      TemplateURL: https://iac-bucket-azamclouds.s3.eu-central-1.amazonaws.com/monitoring/sns.yaml
       Parameters:
         EnvironmentName: !Ref EnvironmentName
         TopicName: !Ref TopicName
@@ -166,7 +166,7 @@ Resources:
   MonitoringStack:
     Type: AWS::CloudFormation::Stack
     Properties:
-      TemplateURL: https://iac-bucket-azamclouds.s3.us-east-1.amazonaws.com/monitoring/cloudwatch.yaml
+      TemplateURL: https://iac-bucket-azamclouds.s3.eu-central-1.amazonaws.com/monitoring/cloudwatch.yaml
       Parameters:
         EnvironmentName: !Ref EnvironmentName
         AlarmName: !Ref AlarmName
@@ -177,7 +177,7 @@ Resources:
   PrimaryBucketStack:
     Type: AWS::CloudFormation::Stack
     Properties:
-      TemplateURL: https://iac-bucket-azamclouds.s3.us-east-1.amazonaws.com/storage/s3-primary.yaml
+      TemplateURL: https://iac-bucket-azamclouds.s3.eu-central-1.amazonaws.com/storage/s3-primary.yaml
       Parameters:
         EnvironmentName: !Ref EnvironmentName
 
