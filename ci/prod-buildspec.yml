@@ -16,7 +16,7 @@ phases:
   build:
     commands:
       - echo "Uploading nested stack templates to S3..."
-      - aws s3 sync cloudformation/stacks/ s3://iac-bucket-azamcloud/
+      - aws s3 sync cloudformation/stacks/ s3://iac-bucket-azamclouds/
       - aws cloudformation deploy --template-file cloudformation/master/primary.yaml --stack-name Prod-Multi-Region-BlueGreen-Stack-East --capabilities CAPABILITY_NAMED_IAM --role-arn arn:aws:iam::$ACCOUNT_ID:role/cloudformationrole --parameter-overrides file://params/prod/prod-params-primary.json --region us-east-1
       - value1=$(aws ssm get-parameter --name "/${ENV_NAME}/myapp/primary/dbarn" --region us-east-1 --query 'Parameter.Value' --output text)
       - aws ssm put-parameter --name "/${ENV_NAME}/myapp/secondary/dbarn" --value "$value1" --type String --overwrite --region us-west-1
