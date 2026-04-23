@@ -28,13 +28,13 @@ Resources:
   ServerLogGroup:
     Type: AWS::Logs::LogGroup
     Properties:
-      LogGroupName: server-logs
+      LogGroupName: !Sub "${EnvironmentName}-server-logs"
       RetentionInDays: 7
       
   HttpdLogGroup:
     Type: AWS::Logs::LogGroup
     Properties:
-      LogGroupName: httpd-logs
+      LogGroupName: !Sub "${EnvironmentName}-httpd-logs"
       RetentionInDays: 7
 
   AppSecurityGroup:
@@ -81,69 +81,97 @@ Resources:
           - !Ref AppSecurityGroup
         IamInstanceProfile:
           Arn: !GetAtt InstanceProfile.Arn
-        UserData: !Base64 |
-          #!/bin/bash
-          set -xe
+        UserData: !Base64
+          Fn::Sub: |
+            #!/bin/bash
+            set -xe
 
-          # System update
-          yum update -y
+            ENV=${EnvironmentName}
 
-          # Install dependencies
-          yum install -y aws-cli httpd ruby wget amazon-cloudwatch-agent
+            # System update
+            yum update -y
 
-          # Start web server
-          mkdir -p /var/www/html
-          echo "<h1>App Running</h1>" > /var/www/html/index.html
-          systemctl enable httpd
-          systemctl start httpd
+            # Install dependencies
+            yum install -y aws-cli httpd ruby wget amazon-cloudwatch-agent
 
-          # Get region (IMDSv2 compliant)
-          TOKEN=$(curl -X PUT "http://169.254.169.254/latest/api/token" \
-            -H "X-aws-ec2-metadata-token-ttl-seconds: 21600")
+            # Start web server
+            mkdir -p /var/www/html
+            echo "<h1>App Running in ${ENV}</h1>" > /var/www/html/index.html
+            systemctl enable httpd
+            systemctl start httpd
 
-          REGION=$(curl -H "X-aws-ec2-metadata-token: $TOKEN" \
-            -s http://169.254.169.254/latest/meta-data/placement/region)
+            # Get region (IMDSv2 compliant)
+            TOKEN=$(curl -X PUT "http://169.254.169.254/latest/api/token" \
+              -H "X-aws-ec2-metadata-token-ttl-seconds: 21600")
 
-          # Install CodeDeploy Agent with retry
-          cd /tmp
-          for i in {1..5}; do
-            wget https://aws-codedeploy-${REGION}.s3.${REGION}.amazonaws.com/latest/install -O install && break
-            sleep 5
-          done
+            REGION=$(curl -H "X-aws-ec2-metadata-token: $TOKEN" \
+              -s http://169.254.169.254/latest/meta-data/placement/region)
 
-          chmod +x install
-          ./install auto
+            # Install CodeDeploy Agent with retry
+            cd /tmp
+            for i in {1..5}; do
+              wget https://aws-codedeploy-${REGION}.s3.${REGION}.amazonaws.com/latest/install -O install && break
+              sleep 5
+            done
 
-          # Force agent to always restart if it crashes
-          mkdir -p /etc/systemd/system/codedeploy-agent.service.d
+            chmod +x install
+            ./install auto
 
-          cat <<EOF > /etc/systemd/system/codedeploy-agent.service.d/override.conf
-          [Service]
-          Restart=always
-          RestartSec=10
-          EOF
+            # Force agent to always restart if it crashes
+            mkdir -p /etc/systemd/system/codedeploy-agent.service.d
 
-          systemctl daemon-reexec
-          systemctl daemon-reload
+            cat <<EOF > /etc/systemd/system/codedeploy-agent.service.d/override.conf
+            [Service]
+            Restart=always
+            RestartSec=10
+            EOF
 
-          # Enable and start agent
-          systemctl enable codedeploy-agent
-          systemctl restart codedeploy-agent
+            systemctl daemon-reexec
+            systemctl daemon-reload
 
-          # Verify agent is running
-          sleep 10
-          systemctl status codedeploy-agent || systemctl restart codedeploy-agent
-          
-          # Create CloudWatch Agent configuration
-          sudo tee /opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.json > /dev/null <<'EOF'
-          {"logs":{"logs_collected":{"files":{"collect_list":[{"file_path":"/var/log/messages","log_group_name":"server-logs","log_stream_name":"{instance_id}","timestamp_format":"%Y-%m-%d %H:%M:%S"},{"file_path":"/var/log/httpd/access_log","log_group_name":"httpd-logs","log_stream_name":"{instance_id}","timestamp_format":"%Y-%m-%d %H:%M:%S"}]}}}}
-          EOF
-          # Start CloudWatch Agent
-          /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl \
-            -a fetch-config \
-            -m ec2 \
-            -c file:/opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.json \
-            -s
+            # Enable and start agent
+            systemctl enable codedeploy-agent
+            systemctl restart codedeploy-agent
+
+            # Verify agent is running
+            sleep 10
+            systemctl status codedeploy-agent || systemctl restart codedeploy-agent
+            
+            # Create CloudWatch Agent configuration (environment-aware)
+            SERVER_LOG_GROUP="${EnvironmentName}-server-logs"
+            HTTPD_LOG_GROUP="${EnvironmentName}-httpd-logs"
+
+            cat <<EOF > /opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.json
+            {
+              "logs": {
+                "logs_collected": {
+                  "files": {
+                    "collect_list": [
+                      {
+                        "file_path": "/var/log/messages",
+                        "log_group_name": "${SERVER_LOG_GROUP}",
+                        "log_stream_name": "{instance_id}",
+                        "timestamp_format": "%Y-%m-%d %H:%M:%S"
+                      },
+                      {
+                        "file_path": "/var/log/httpd/access_log",
+                        "log_group_name": "${HTTPD_LOG_GROUP}",
+                        "log_stream_name": "{instance_id}",
+                        "timestamp_format": "%Y-%m-%d %H:%M:%S"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+            EOF
+
+            # Start CloudWatch Agent
+            /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl \
+              -a fetch-config \
+              -m ec2 \
+              -c file:/opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.json \
+              -s
 
   AutoScalingGroup:
     Type: AWS::AutoScaling::AutoScalingGroup
