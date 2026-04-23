@@ -57,9 +57,9 @@ Resources:
                 Action:
                   - s3:PutReplicationConfiguration
                 Resource: 
-                  - arn:aws:s3:::dev-primary-dr-bucket-us-east-1
-                  - arn:aws:s3:::staging-primary-dr-bucket-us-east-1
-                  - arn:aws:s3:::prod-primary-dr-bucket-us-east-1
+                  - arn:aws:s3:::dev-primary-dr-bcket-us-east-1
+                  - arn:aws:s3:::staging-primary-dr-bcket-us-east-1
+                  - arn:aws:s3:::prod-primary-dr-bcket-us-east-1
 
               - Effect: Allow
                 Action:
