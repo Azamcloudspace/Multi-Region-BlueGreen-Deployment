@@ -439,7 +439,8 @@ S3 showing replication (prod environment)
 Cloudwatch Healthy Host Count alaram triggered
 
 ![Monitoring](/screenshots/Screenshot16.png)
-Ec2 httpd logs
+Ec2 httpd logs 
+
 ---
 
 ##  Security Implementation
